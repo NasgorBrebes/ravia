@@ -14,21 +14,23 @@
 
 <body>
     @if ($errors->any())
-<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-6 max-w-lg ml-8">
-    <strong class="font-bold">Terjadi Kesalahan!</strong>
-    <ul class="mt-2 list-disc list-inside">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-6 max-w-lg ml-8">
+            <strong class="font-bold">Terjadi Kesalahan!</strong>
+            <ul class="mt-2 list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container-fluid" id="dashboardPage">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 px-0 sidebar" id="sidebar" style="background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); min-height: 100vh;">
+            <div class="col-md-3 col-lg-2 px-0 sidebar" id="sidebar"
+                style="background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); min-height: 100vh;">
                 <div class="d-flex flex-column p-3 text-white h-100">
-                    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a href="#"
+                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-4">Wedding Dashboard</span>
                     </a>
                     <hr>
@@ -76,10 +78,12 @@
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 main-content" id="mainContent">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
                     <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/40" alt="User Avatar" class="user-avatar me-2 rounded-circle">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar"
+                            class="user-avatar me-2 rounded-circle">
                         <div>
                             <h6 class="mb-0" id="userDisplayName">Admin</h6>
                             <small class="text-muted">Administrator</small>
@@ -172,16 +176,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($recentGuests as $guest)
-                                        <tr>
-                                            <td>{{ $guest->guestName }}</td>
-                                            <td>
-                                                <span class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                                    {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $guest->updated_at->format('d M Y') }}</td>
-                                        </tr>
+                                        @foreach ($recentGuests as $guest)
+                                            <tr>
+                                                <td>{{ $guest->guestName }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
+                                                        {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ $guest->updated_at->format('d M Y') }}</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -197,7 +202,7 @@
                             <h5 class="card-title mb-0">Edit Halaman Awal (Home)</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{route('event.update')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('event.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="homeImage" class="form-label">Gambar Pengantin</label>
@@ -210,37 +215,44 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="homeQuoteSource" class="form-label">Sumber Kutipan</label>
-                                    <input type="text" class="form-control" id="homeQuoteSource" name="homeQuoteSource">
+                                    <input type="text" class="form-control" id="homeQuoteSource"
+                                        name="homeQuoteSource">
                                 </div>
 
                                 <hr class="my-4">
                                 <h6 class="fw-bold mb-3">Mempelai Pria</h6>
                                 <div class="mb-3">
                                     <label for="groomNameDetail" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="groomNameDetail" name="groomNameDetail">
+                                    <input type="text" class="form-control" id="groomNameDetail"
+                                        name="groomNameDetail">
                                 </div>
                                 <div class="mb-3">
                                     <label for="groomParentsDetail" class="form-label">Nama Orang Tua</label>
-                                    <input type="text" class="form-control" id="groomParentsDetail" name="groomParentsDetail">
+                                    <input type="text" class="form-control" id="groomParentsDetail"
+                                        name="groomParentsDetail">
                                 </div>
                                 <div class="mb-3">
                                     <label for="groomAddress" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="groomAddress" name="groomAddress">
+                                    <input type="text" class="form-control" id="groomAddress"
+                                        name="groomAddress">
                                 </div>
 
                                 <hr class="my-4">
                                 <h6 class="fw-bold mb-3">Mempelai Wanita</h6>
                                 <div class="mb-3">
                                     <label for="brideNameDetail" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="brideNameDetail" name="brideNameDetail">
+                                    <input type="text" class="form-control" id="brideNameDetail"
+                                        name="brideNameDetail">
                                 </div>
                                 <div class="mb-3">
                                     <label for="brideParentsDetail" class="form-label">Nama Orang Tua</label>
-                                    <input type="text" class="form-control" id="brideParentsDetail" name="brideParentsDetail">
+                                    <input type="text" class="form-control" id="brideParentsDetail"
+                                        name="brideParentsDetail">
                                 </div>
                                 <div class="mb-3">
                                     <label for="brideAddress" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="brideAddress" name="brideAddress">
+                                    <input type="text" class="form-control" id="brideAddress"
+                                        name="brideAddress">
                                 </div>
 
                                 <hr class="my-4">
@@ -264,11 +276,14 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="groomParents" class="form-label">Orang Tua Pengantin Pria</label>
-                                        <input type="text" class="form-control" id="groomParents" name="groomParents">
+                                        <input type="text" class="form-control" id="groomParents"
+                                            name="groomParents">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="brideParents" class="form-label">Orang Tua Pengantin Wanita</label>
-                                        <input type="text" class="form-control" id="brideParents" name="brideParents">
+                                        <label for="brideParents" class="form-label">Orang Tua Pengantin
+                                            Wanita</label>
+                                        <input type="text" class="form-control" id="brideParents"
+                                            name="brideParents">
                                     </div>
                                 </div>
 
@@ -277,11 +292,13 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="bannerImage" class="form-label">Gambar Banner</label>
-                                        <input class="form-control" type="file" id="bannerImage" name="bannerImage">
+                                        <input class="form-control" type="file" id="bannerImage"
+                                            name="bannerImage">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="musicBackground" class="form-label">Latar Musik</label>
-                                        <input class="form-control" type="file" accept="audio/*" id="musicBackground" name="musicBackground">
+                                        <input class="form-control" type="file" accept="audio/*"
+                                            id="musicBackground" name="musicBackground">
                                     </div>
                                 </div>
 
@@ -296,7 +313,8 @@
                                 <h6 class="fw-bold mb-3">Informasi Acara</h6>
                                 <div class="mb-3">
                                     <label for="openingGreeting" class="form-label">Salam Pembuka</label>
-                                    <input type="text" class="form-control" id="openingGreeting" name="openingGreeting">
+                                    <input type="text" class="form-control" id="openingGreeting"
+                                        name="openingGreeting">
                                 </div>
                                 <div class="mb-3">
                                     <label for="welcomeMessage" class="form-label">Pesan Sambutan</label>
@@ -312,7 +330,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="eventLocation" class="form-label">Lokasi Acara</label>
-                                    <input type="text" class="form-control" id="eventLocation" name="eventLocation">
+                                    <input type="text" class="form-control" id="eventLocation"
+                                        name="eventLocation">
                                 </div>
                                 <div class="mb-3">
                                     <label for="eventAddress" class="form-label">Alamat Lengkap</label>
@@ -320,7 +339,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="closingGreeting" class="form-label">Salam Penutup</label>
-                                    <input type="text" class="form-control" id="closingGreeting" name="closingGreeting">
+                                    <input type="text" class="form-control" id="closingGreeting"
+                                        name="closingGreeting">
                                 </div>
 
                                 <hr class="my-4">
@@ -332,13 +352,15 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="accountNumber1" class="form-label">Nomor Rekening</label>
-                                        <input type="text" class="form-control" id="accountNumber1" name="accountNumber1">
+                                        <input type="text" class="form-control" id="accountNumber1"
+                                            name="accountNumber1">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="accountName1" class="form-label">Nama Pemilik</label>
-                                        <input type="text" class="form-control" id="accountName1" name="accountName1">
+                                        <input type="text" class="form-control" id="accountName1"
+                                            name="accountName1">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="bankLogo1" class="form-label">Logo Bank</label>
@@ -355,13 +377,15 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="accountNumber2" class="form-label">Nomor Rekening</label>
-                                        <input type="text" class="form-control" id="accountNumber2" name="accountNumber2">
+                                        <input type="text" class="form-control" id="accountNumber2"
+                                            name="accountNumber2">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="accountName2" class="form-label">Nama Pemilik</label>
-                                        <input type="text" class="form-control" id="accountName2" name="accountName2">
+                                        <input type="text" class="form-control" id="accountName2"
+                                            name="accountName2">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="bankLogo2" class="form-label">Logo Bank</label>
@@ -377,11 +401,13 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="recipientName" class="form-label">Nama Penerima</label>
-                                    <input type="text" class="form-control" id="recipientName" name="recipientName">
+                                    <input type="text" class="form-control" id="recipientName"
+                                        name="recipientName">
                                 </div>
                                 <div class="mb-3">
                                     <label for="recipientPhone" class="form-label">Nomor Telepon</label>
-                                    <input type="text" class="form-control" id="recipientPhone" name="recipientPhone">
+                                    <input type="text" class="form-control" id="recipientPhone"
+                                        name="recipientPhone">
                                 </div>
 
                                 <div class="text-end mt-4">
@@ -414,7 +440,8 @@
                                 <button class="btn btn-sm btn-outline-secondary me-1" onclick="exportGuestList()">
                                     <i class="fas fa-download me-1"></i> Export
                                 </button>
-                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#guestModal">
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#guestModal">
                                     <i class="fas fa-plus me-1"></i> Tambah Tamu
                                 </button>
                             </div>
@@ -432,34 +459,35 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($guests as $guest)
-                                        <tr id="guest-row-{{ $guest->id }}">
-                                            <td>{{ $guest->guestName }}</td>
-                                            <td>{{ $guest->guestAddress }}</td>
-                                            <td>
-                                                <span class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                                    {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm" role="group">
-                                                    <button type="button" class="btn btn-outline-primary btn-edit"
+                                            <tr id="guest-row-{{ $guest->id }}">
+                                                <td>{{ $guest->guestName }}</td>
+                                                <td>{{ $guest->guestAddress }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
+                                                        {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm" role="group">
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary btn-edit"
                                                             data-id="{{ $guest->id }}"
                                                             data-name="{{ $guest->guestName }}"
                                                             data-address="{{ $guest->guestAddress }}"
                                                             data-status="{{ $guest->guestStatus }}"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#editGuestModal"
+                                                            data-bs-toggle="modal" data-bs-target="#editGuestModal"
                                                             title="Edit Tamu">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger"
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-danger"
                                                             onclick="deleteGuest({{ $guest->id }}, '{{ $guest->guestName }}')"
                                                             title="Hapus Tamu">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -491,7 +519,8 @@
                             </div>
                             <div class="card-body">
                                 {{-- Pertemuan Pertama --}}
-                                <form method="POST" action="{{ route('stories.store') }}" enctype="multipart/form-data" class="mb-5">
+                                <form method="POST" action="{{ route('stories.store') }}"
+                                    enctype="multipart/form-data" class="mb-5">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="story1Date" class="form-label">Tanggal</label>
@@ -557,9 +586,11 @@
                             <div class="row" id="galleryImages">
                                 <div class="col-md-4 mb-3">
                                     <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Gallery Image 1">
+                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
+                                            alt="Gallery Image 1">
                                         <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100" onclick="removeGalleryImage(1)">
+                                            <button class="btn btn-sm btn-outline-danger w-100"
+                                                onclick="removeGalleryImage(1)">
                                                 <i class="fas fa-trash me-1"></i> Hapus
                                             </button>
                                         </div>
@@ -567,9 +598,11 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Gallery Image 2">
+                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
+                                            alt="Gallery Image 2">
                                         <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100" onclick="removeGalleryImage(2)">
+                                            <button class="btn btn-sm btn-outline-danger w-100"
+                                                onclick="removeGalleryImage(2)">
                                                 <i class="fas fa-trash me-1"></i> Hapus
                                             </button>
                                         </div>
@@ -577,38 +610,40 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Gallery Image 3">
+                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
+                                            alt="Gallery Image 3">
                                         <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100" onclick="removeGalleryImage(3)">
+                                            <button class="btn btn-sm btn-outline-danger w-100"
+                                                onclick="removeGalleryImage(3)">
                                                 <i class="fas fa-trash me-1"></i> Hapus
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Edit Gift Section -->
-                <div id="editGiftSection" class="d-none">
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-header bg-white">
-                            <h5 class="card-title mb-0">Edit Hadiah & Amplop Digital</h5>
-                        </div>
-                        <div class="card-body">
-                            <form>
-
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Edit Gift Section -->
+    <div id="editGiftSection" class="d-none">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Edit Hadiah & Amplop Digital</h5>
+            </div>
+            <div class="card-body">
+                <form>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
     </div>
 
     <!-- Guest Modal -->
@@ -620,7 +655,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="guestForm" method="POST"action="{{route('guest.store')}}">
+                    <form id="guestForm" method="POST"action="{{ route('guest.store') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="guestName" class="form-label">Nama Lengkap</label>
@@ -628,10 +663,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="guestAddress" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="guestAddress" required name="guestAddress">
+                            <input type="text" class="form-control" id="guestAddress" required
+                                name="guestAddress">
                         </div>
                         <div class="mb-3">
-                            <label for="guestStatus" class="form-label">Status</label >
+                            <label for="guestStatus" class="form-label">Status</label>
                             <select class="form-select" id="guestStatus" name="guestStatus">
                                 <option value="belum_konfirmasi">Menunggu</option>
                                 <option value="hadir">Hadir</option>
@@ -649,7 +685,8 @@
     </div>
 
     <!-- Edit Guest Modal -->
-    <div class="modal fade" id="editGuestModal" tabindex="-1" aria-labelledby="editGuestModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editGuestModal" tabindex="-1" aria-labelledby="editGuestModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -702,219 +739,226 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-// Handle edit button click
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.btn-edit')) {
-        const btn = e.target.closest('.btn-edit');
-        const id = btn.getAttribute('data-id');
-        const name = btn.getAttribute('data-name');
-        const address = btn.getAttribute('data-address');
-        const status = btn.getAttribute('data-status');
+        // Handle edit button click
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-edit')) {
+                const btn = e.target.closest('.btn-edit');
+                const id = btn.getAttribute('data-id');
+                const name = btn.getAttribute('data-name');
+                const address = btn.getAttribute('data-address');
+                const status = btn.getAttribute('data-status');
 
-        console.log('Edit button clicked:', {id, name, address, status});
+                console.log('Edit button clicked:', {
+                    id,
+                    name,
+                    address,
+                    status
+                });
 
-        // Populate edit modal
-        document.getElementById('editGuestId').value = id;
-        document.getElementById('editGuestName').value = name;
-        document.getElementById('editGuestAddress').value = address;
-        document.getElementById('editGuestStatus').value = status;
+                // Populate edit modal
+                document.getElementById('editGuestId').value = id;
+                document.getElementById('editGuestName').value = name;
+                document.getElementById('editGuestAddress').value = address;
+                document.getElementById('editGuestStatus').value = status;
 
-        // Update form action - PERBAIKAN: Sesuaikan dengan route yang benar
-        const form = document.getElementById('editGuestForm');
-        form.action = `/guest/${id}`;
-        console.log('Form action set to:', form.action);
-    }
-});
-
-// Handle edit form submission with AJAX
-document.getElementById('editGuestForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    console.log('Form submitted!');
-
-    const formData = new FormData(this);
-    const guestId = formData.get('guest_id');
-
-    if (!guestId) {
-        showAlert('Guest ID tidak ditemukan!', 'danger');
-        return;
-    }
-
-    console.log('Guest ID:', guestId);
-    console.log('Form data:', {
-        name: formData.get('guestName'),
-        address: formData.get('guestAddress'),
-        status: formData.get('guestStatus')
-    });
-
-    // Show loading state
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Menyimpan...';
-    submitBtn.disabled = true;
-
-    // PERBAIKAN: Gunakan PATCH method sesuai dengan route
-    fetch(`/guest/${guestId}`, {
-        method: 'PATCH',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            guestName: formData.get('guestName'),
-            guestAddress: formData.get('guestAddress'),
-            guestStatus: formData.get('guestStatus')
-        })
-    })
-    .then(response => {
-        console.log('Response status:', response.status);
-
-        if (!response.ok) {
-            return response.text().then(text => {
-                console.error('Error response:', text);
-                throw new Error(`HTTP ${response.status}: ${text}`);
-            });
-        }
-        return response.json();
-    })
-    .then data => {
-        console.log('Success response:', data);
-
-        if (data.success) {
-            // Update table row
-            const row = document.getElementById(`guest-row-${guestId}`);
-            if (row) {
-                const cells = row.querySelectorAll('td');
-
-                // Update nama
-                cells[0].textContent = formData.get('guestName');
-                // Update alamat
-                cells[1].textContent = formData.get('guestAddress') || '-';
-
-                // Update status badge
-                const status = formData.get('guestStatus');
-                const badgeClass = status === 'hadir' ? 'bg-success' : (status === 'tidak_hadir' ? 'bg-danger' : 'bg-warning');
-                const statusText = status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                cells[2].innerHTML = `<span class="badge ${badgeClass}">${statusText}</span>`;
-
-                // Update edit button data attributes
-                const editBtn = row.querySelector('.btn-edit');
-                if (editBtn) {
-                    editBtn.setAttribute('data-name', formData.get('guestName'));
-                    editBtn.setAttribute('data-address', formData.get('guestAddress') || '');
-                    editBtn.setAttribute('data-status', formData.get('guestStatus'));
-                }
+                // Update form action - PERBAIKAN: Sesuaikan dengan route yang benar
+                const form = document.getElementById('editGuestForm');
+                form.action = `/guest/${id}`;
+                console.log('Form action set to:', form.action);
             }
-
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editGuestModal'));
-            if (modal) {
-                modal.hide();
-            }
-
-            // Show success message
-            showAlert('Data tamu berhasil diperbarui!', 'success');
-        } else {
-            showAlert(data.message || 'Terjadi kesalahan saat memperbarui data!', 'danger');
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        showAlert(`Terjadi kesalahan: ${error.message}`, 'danger');
-    })
-    .finally(() => {
-        // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
-});
-
-// ALTERNATIF: Jika ingin tetap menggunakan FormData dan POST
-function alternativeSubmit() {
-    const formData = new FormData(this);
-    const guestId = formData.get('guest_id');
-
-    // Tambahkan _method untuk Laravel method spoofing
-    formData.append('_method', 'PATCH');
-
-    fetch(`/guest/${guestId}`, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Accept': 'application/json'
-        },
-        body: formData
-    })
-    .then(response => {
-        // ... sama seperti di atas
-    });
-}
-
-// Handle delete guest with AJAX
-function deleteGuest(id, name) {
-    if (confirm(`Apakah Anda yakin ingin menghapus tamu "${name}"?`)) {
-        // PERBAIKAN: Sesuaikan URL dengan route yang benar
-        fetch(`/guest/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Remove row from table
-                document.getElementById(`guest-row-${id}`).remove();
-                showAlert('Tamu berhasil dihapus!', 'success');
-            } else {
-                showAlert(data.message || 'Terjadi kesalahan saat menghapus data!', 'danger');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showAlert('Terjadi kesalahan saat menghapus data!', 'danger');
         });
-    }
-}
 
-// Function to show alert messages
-function showAlert(message, type = 'success') {
-    // Remove existing alerts
-    const existingAlerts = document.querySelectorAll('.alert-custom');
-    existingAlerts.forEach(alert => alert.remove());
+        // Handle edit form submission with AJAX
+        document.getElementById('editGuestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Create new alert
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom`;
-    alertDiv.style.position = 'fixed';
-    alertDiv.style.top = '20px';
-    alertDiv.style.right = '20px';
-    alertDiv.style.zIndex = '9999';
-    alertDiv.style.minWidth = '300px';
+            console.log('Form submitted!');
 
-    alertDiv.innerHTML = `
+            const formData = new FormData(this);
+            const guestId = formData.get('guest_id');
+
+            if (!guestId) {
+                showAlert('Guest ID tidak ditemukan!', 'danger');
+                return;
+            }
+
+            console.log('Guest ID:', guestId);
+            console.log('Form data:', {
+                name: formData.get('guestName'),
+                address: formData.get('guestAddress'),
+                status: formData.get('guestStatus')
+            });
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+
+            // PERBAIKAN: Gunakan PATCH method sesuai dengan route
+            fetch(`/guest/${guestId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content'),
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        guestName: formData.get('guestName'),
+                        guestAddress: formData.get('guestAddress'),
+                        guestStatus: formData.get('guestStatus')
+                    })
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error('Error response:', text);
+                            throw new Error(`HTTP ${response.status}: ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then data => {
+                    console.log('Success response:', data);
+
+                    if (data.success) {
+                        // Update table row
+                        const row = document.getElementById(`guest-row-${guestId}`);
+                        if (row) {
+                            const cells = row.querySelectorAll('td');
+
+                            // Update nama
+                            cells[0].textContent = formData.get('guestName');
+                            // Update alamat
+                            cells[1].textContent = formData.get('guestAddress') || '-';
+
+                            // Update status badge
+                            const status = formData.get('guestStatus');
+                            const badgeClass = status === 'hadir' ? 'bg-success' : (status === 'tidak_hadir' ?
+                                'bg-danger' : 'bg-warning');
+                            const statusText = status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            cells[2].innerHTML = `<span class="badge ${badgeClass}">${statusText}</span>`;
+
+                            // Update edit button data attributes
+                            const editBtn = row.querySelector('.btn-edit');
+                            if (editBtn) {
+                                editBtn.setAttribute('data-name', formData.get('guestName'));
+                                editBtn.setAttribute('data-address', formData.get('guestAddress') || '');
+                                editBtn.setAttribute('data-status', formData.get('guestStatus'));
+                            }
+                        }
+
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('editGuestModal'));
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        // Show success message
+                        showAlert('Data tamu berhasil diperbarui!', 'success');
+                    } else {
+                        showAlert(data.message || 'Terjadi kesalahan saat memperbarui data!', 'danger');
+                    }
+                })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            showAlert(`Terjadi kesalahan: ${error.message}`, 'danger');
+        })
+        .finally(() => {
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+        });
+
+        // ALTERNATIF: Jika ingin tetap menggunakan FormData dan POST
+        function alternativeSubmit() {
+            const formData = new FormData(this);
+            const guestId = formData.get('guest_id');
+
+            // Tambahkan _method untuk Laravel method spoofing
+            formData.append('_method', 'PATCH');
+
+            fetch(`/guest/${guestId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    // ... sama seperti di atas
+                });
+        }
+
+        // Handle delete guest with AJAX
+        function deleteGuest(id, name) {
+            if (confirm(`Apakah Anda yakin ingin menghapus tamu "${name}"?`)) {
+                // PERBAIKAN: Sesuaikan URL dengan route yang benar
+                fetch(`/guest/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove row from table
+                            document.getElementById(`guest-row-${id}`).remove();
+                            showAlert('Tamu berhasil dihapus!', 'success');
+                        } else {
+                            showAlert(data.message || 'Terjadi kesalahan saat menghapus data!', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Terjadi kesalahan saat menghapus data!', 'danger');
+                    });
+            }
+        }
+
+        // Function to show alert messages
+        function showAlert(message, type = 'success') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert-custom');
+            existingAlerts.forEach(alert => alert.remove());
+
+            // Create new alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.style.minWidth = '300px';
+
+            alertDiv.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
 
-    document.body.appendChild(alertDiv);
+            document.body.appendChild(alertDiv);
 
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (alertDiv.parentNode) {
-            alertDiv.remove();
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
         }
-    }, 5000);
-}
 
-function logout() {
+        function logout() {
             // Create a form element
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = '{{ route("logout") }}';
+            form.action = '{{ route('logout') }}';
 
             // Add CSRF token
             const csrfToken = document.createElement('input');
@@ -928,7 +972,7 @@ function logout() {
             form.submit();
         }
 
-console.log('Guest management script loaded with correct routes');
+        console.log('Guest management script loaded with correct routes');
     </script>
 
 
