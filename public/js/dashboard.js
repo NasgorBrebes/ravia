@@ -201,159 +201,133 @@ function saveInfoSection() {
     alert("Informasi sambutan berhasil disimpan!");
 }
 
+// Add gallery image
 function addGalleryImage() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = function (e) {
-        if (e.target.files[0]) {
-            alert("Gambar berhasil ditambahkan ke galeri!");
-        }
-    };
-    input.click();
+    // Show modal with jQuery
+    $("#addImageModal").modal("show");
 }
 
-function removeGalleryImage(id) {
-    if (confirm("Apakah Anda yakin ingin menghapus gambar ini?")) {
-        alert("Gambar berhasil dihapus dari galeri!");
-    }
-}
+// Handle form submission
+$("#addImageForm").on("submit", function (e) {
+    e.preventDefault();
 
-function saveGiftSection() {
-    alert("Informasi hadiah berhasil disimpan!");
-}
+    const formData = new FormData(this);
+    const submitBtn = $(this).find('button[type="submit"]');
 
-function logout() {
-    if (confirm("Apakah Anda yakin ingin logout?")) {
-        alert("Logout berhasil!");
-        // In real application, redirect to login page
-    }
-}
+    submitBtn
+        .prop("disabled", true)
+        .html('<i class="fas fa-spinner fa-spin me-1"></i> Uploading...');
 
-// Initialize event listeners when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-    // Modal reset when hidden
-    document
-        .getElementById("guestModal")
-        .addEventListener("hidden.bs.modal", function () {
-            document.getElementById("guestForm").reset();
-            document.getElementById("guestModalLabel").textContent =
-                "Tambah Tamu";
-            editingGuestId = null;
-        });
-
-    // Handle edit button clicks
-    document.addEventListener("click", function (e) {
-        if (e.target.closest(".btn-edit")) {
-            const btn = e.target.closest(".btn-edit");
-            const id = btn.getAttribute("data-id");
-            const name = btn.getAttribute("data-name");
-            const address = btn.getAttribute("data-address");
-            const status = btn.getAttribute("data-status");
-
-            // Populate edit modal
-            document.getElementById("editGuestId").value = id;
-            document.getElementById("editGuestName").value = name;
-            document.getElementById("editGuestAddress").value = address || "";
-            document.getElementById("editGuestStatus").value = status;
-
-            // Update form action
-            const form = document.getElementById("editGuestForm");
-            form.action = `/guest/${id}`;
-        }
-    });
-
-    // Handle edit form submission with AJAX
-    document
-        .getElementById("editGuestForm")
-        .addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const guestId = document.getElementById("editGuestId").value;
-
-            // Get CSRF token from meta tag
-            const token = document
+    fetch("/gallery", {
+        method: "POST",
+        body: formData,
+        // Don't set Content-Type header when sending FormData
+        headers: {
+            "X-CSRF-TOKEN": document
                 .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content");
+                .getAttribute("content"),
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                // Hide empty message if exists
+                $("#empty-gallery").remove();
 
-            fetch(`/guest/${guestId}`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        // Update the table row
-                        const row = document.getElementById(
-                            `guest-row-${guestId}`
-                        );
-                        const statusClass =
-                            formData.get("guestStatus") === "hadir"
-                                ? "bg-success"
-                                : formData.get("guestStatus") === "tidak_hadir"
-                                ? "bg-danger"
-                                : "bg-warning";
-                        const statusText = formData
-                            .get("guestStatus")
-                            .replace("_", " ");
+                // Add new image to gallery
+                const newImageHtml = `
+                <div class="col-md-4 mb-3" id="gallery-${data.data.id}">
+                    <div class="card">
+                        <img src="${data.data.image_url}" class="card-img-top" alt="${data.data.alt_text}">
+                        <div class="card-body p-2">
+                            <button class="btn btn-sm btn-outline-danger w-100" onclick="removeGalleryImage(${data.data.id})">
+                                <i class="fas fa-trash me-1"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+                $("#galleryImages").append(newImageHtml);
 
-                        if (row) {
-                            row.innerHTML = `
-                    <td>${formData.get("guestName")}</td>
-                    <td>${formData.get("guestAddress") || ""}</td>
-                    <td>
-                        <span class="badge ${statusClass}">
-                            ${
-                                statusText.charAt(0).toUpperCase() +
-                                statusText.slice(1)
-                            }
-                        </span>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning btn-sm btn-edit me-1"
-                            data-id="${guestId}"
-                            data-name="${formData.get("guestName")}"
-                            data-address="${formData.get("guestAddress") || ""}"
-                            data-status="${formData.get("guestStatus")}"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editGuestModal">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteGuest(${guestId}, '${formData.get(
-                                "guestName"
-                            )}')">
-                            <i class="fas fa-trash"></i> Hapus
-                        </button>
-                    </td>
-                `;
-                        }
+                // Reset form and close modal
+                $("#addImageForm")[0].reset();
+                $("#addImageModal").modal("hide");
 
-                        // Close modal
-                        const modal = bootstrap.Modal.getInstance(
-                            document.getElementById("editGuestModal")
-                        );
-                        modal.hide();
-
-                        // Show success message
-                        showAlert("Data tamu berhasil diperbarui!", "success");
-                    } else {
-                        showAlert(
-                            data.message ||
-                                "Terjadi kesalahan saat memperbarui data!",
-                            "danger"
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                    showAlert(
-                        "Terjadi kesalahan saat memperbarui data!",
-                        "danger"
-                    );
-                });
+                // Show success message
+                showAlert("success", data.message);
+            } else {
+                showAlert("danger", data.message);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            showAlert("danger", "Terjadi kesalahan saat mengupload foto");
+        })
+        .finally(() => {
+            submitBtn
+                .prop("disabled", false)
+                .html('<i class="fas fa-upload me-1"></i> Upload');
         });
 });
+
+// Remove gallery image
+function removeGalleryImage(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus foto ini?")) {
+        fetch(`/gallery/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    // Remove image from DOM
+                    $(`#gallery-${id}`).fadeOut(300, function () {
+                        $(this).remove();
+
+                        // Show empty message if no images left
+                        if ($("#galleryImages .col-md-4").length === 0) {
+                            $("#galleryImages").html(`
+                            <div class="col-12 text-center py-4" id="empty-gallery">
+                                <p class="text-muted">Belum ada foto dalam galeri</p>
+                            </div>
+                        `);
+                        }
+                    });
+
+                    showAlert("success", data.message);
+                } else {
+                    showAlert("danger", data.message);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                showAlert("danger", "Terjadi kesalahan saat menghapus foto");
+            });
+    }
+}
+
+// Show alert message
+function showAlert(type, message) {
+    const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+
+    // Remove existing alerts
+    $(".alert").remove();
+
+    // Add new alert at the top of card body
+    $("#editGallerySection .card-body").prepend(alertHtml);
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        $(".alert").fadeOut();
+    }, 5000);
+}

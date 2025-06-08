@@ -4,6 +4,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/stories', [StoryController::class, 'index'])->name('stories.index'); // API response (JSON)
     Route::post('/stories/add', [StoryController::class, 'store'])->name('stories.store');
     Route::put('/stories/{id}', [StoryController::class, 'update'])->name('stories.update'); // Mengupdate 1 cerita
+
+    // Gallery routes
+    Route::get('/admin/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+    Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::delete('/gallery/{id}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
     // Logout route
     Route::post('/logout', function () {

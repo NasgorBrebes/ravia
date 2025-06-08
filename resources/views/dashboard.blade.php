@@ -574,7 +574,7 @@
                 </div>
 
                 <!-- Edit Gallery Section -->
-                <div id="editGallerySection" class="d-none">
+                <div id="editGallerySection">
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-header bg-white d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Edit Galeri Foto</h5>
@@ -584,66 +584,78 @@
                         </div>
                         <div class="card-body">
                             <div class="row" id="galleryImages">
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
-                                            alt="Gallery Image 1">
-                                        <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100"
-                                                onclick="removeGalleryImage(1)">
-                                                <i class="fas fa-trash me-1"></i> Hapus
-                                            </button>
+                                @forelse($galleries as $gallery)
+                                    <div class="col-md-4 mb-3" id="gallery-{{ $gallery->id }}">
+                                        <div class="card">
+                                            <img src="{{ $gallery->image_url }}" class="card-img-top"
+                                                alt="{{ $gallery->alt_text }}">
+                                            <div class="card-body p-2">
+                                                <button class="btn btn-sm btn-outline-danger w-100"
+                                                    onclick="removeGalleryImage({{ $gallery->id }})">
+                                                    <i class="fas fa-trash me-1"></i> Hapus
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
-                                            alt="Gallery Image 2">
-                                        <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100"
-                                                onclick="removeGalleryImage(2)">
-                                                <i class="fas fa-trash me-1"></i> Hapus
-                                            </button>
-                                        </div>
+                                @empty
+                                    <div class="col-12 text-center py-4" id="empty-gallery">
+                                        <p class="text-muted">Belum ada foto dalam galeri</p>
                                     </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img src="https://via.placeholder.com/300x200" class="card-img-top"
-                                            alt="Gallery Image 3">
-                                        <div class="card-body p-2">
-                                            <button class="btn btn-sm btn-outline-danger w-100"
-                                                onclick="removeGalleryImage(3)">
-                                                <i class="fas fa-trash me-1"></i> Hapus
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                </button>
+                                @endforelse
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for adding image -->
+                <div class="modal fade" id="addImageModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Tambah Foto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form id="addImageForm" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="imageFile" class="form-label">Pilih Foto</label>
+                                        <input type="file" class="form-control" id="imageFile" name="image"
+                                            accept="image/*" required>
+                                        <div class="form-text">Format: JPG, PNG, GIF. Maksimal 2MB</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="altText" class="form-label">Deskripsi (Opsional)</label>
+                                        <input type="text" class="form-control" id="altText" name="alt_text"
+                                            placeholder="Deskripsi gambar">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-upload me-1"></i> Upload
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Gift Section -->
+                <div id="editGiftSection" class="d-none">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mb-0">Edit Hadiah & Amplop Digital</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Edit Gift Section -->
-    <div id="editGiftSection" class="d-none">
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Edit Hadiah & Amplop Digital</h5>
-            </div>
-            <div class="card-body">
-                <form>
-
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
     </div>
 
     <!-- Guest Modal -->
@@ -737,249 +749,12 @@
         <button class="btn btn-danger btn-sm mt-2" onclick="simulateError()">Simulate Error</button>
     </div>
 
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Handle edit button click
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.btn-edit')) {
-                const btn = e.target.closest('.btn-edit');
-                const id = btn.getAttribute('data-id');
-                const name = btn.getAttribute('data-name');
-                const address = btn.getAttribute('data-address');
-                const status = btn.getAttribute('data-status');
-
-                console.log('Edit button clicked:', {
-                    id,
-                    name,
-                    address,
-                    status
-                });
-
-                // Populate edit modal
-                document.getElementById('editGuestId').value = id;
-                document.getElementById('editGuestName').value = name;
-                document.getElementById('editGuestAddress').value = address;
-                document.getElementById('editGuestStatus').value = status;
-
-                // Update form action - PERBAIKAN: Sesuaikan dengan route yang benar
-                const form = document.getElementById('editGuestForm');
-                form.action = `/guest/${id}`;
-                console.log('Form action set to:', form.action);
-            }
-        });
-
-        // Handle edit form submission with AJAX
-        document.getElementById('editGuestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            console.log('Form submitted!');
-
-            const formData = new FormData(this);
-            const guestId = formData.get('guest_id');
-
-            if (!guestId) {
-                showAlert('Guest ID tidak ditemukan!', 'danger');
-                return;
-            }
-
-            console.log('Guest ID:', guestId);
-            console.log('Form data:', {
-                name: formData.get('guestName'),
-                address: formData.get('guestAddress'),
-                status: formData.get('guestStatus')
-            });
-
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Menyimpan...';
-            submitBtn.disabled = true;
-
-            // PERBAIKAN: Gunakan PATCH method sesuai dengan route
-            fetch(`/guest/${guestId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content'),
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        guestName: formData.get('guestName'),
-                        guestAddress: formData.get('guestAddress'),
-                        guestStatus: formData.get('guestStatus')
-                    })
-                })
-                .then(response => {
-                    console.log('Response status:', response.status);
-
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            console.error('Error response:', text);
-                            throw new Error(`HTTP ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then data => {
-                    console.log('Success response:', data);
-
-                    if (data.success) {
-                        // Update table row
-                        const row = document.getElementById(`guest-row-${guestId}`);
-                        if (row) {
-                            const cells = row.querySelectorAll('td');
-
-                            // Update nama
-                            cells[0].textContent = formData.get('guestName');
-                            // Update alamat
-                            cells[1].textContent = formData.get('guestAddress') || '-';
-
-                            // Update status badge
-                            const status = formData.get('guestStatus');
-                            const badgeClass = status === 'hadir' ? 'bg-success' : (status === 'tidak_hadir' ?
-                                'bg-danger' : 'bg-warning');
-                            const statusText = status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                            cells[2].innerHTML = `<span class="badge ${badgeClass}">${statusText}</span>`;
-
-                            // Update edit button data attributes
-                            const editBtn = row.querySelector('.btn-edit');
-                            if (editBtn) {
-                                editBtn.setAttribute('data-name', formData.get('guestName'));
-                                editBtn.setAttribute('data-address', formData.get('guestAddress') || '');
-                                editBtn.setAttribute('data-status', formData.get('guestStatus'));
-                            }
-                        }
-
-                        // Close modal
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('editGuestModal'));
-                        if (modal) {
-                            modal.hide();
-                        }
-
-                        // Show success message
-                        showAlert('Data tamu berhasil diperbarui!', 'success');
-                    } else {
-                        showAlert(data.message || 'Terjadi kesalahan saat memperbarui data!', 'danger');
-                    }
-                })
-        .catch(error => {
-            console.error('Fetch error:', error);
-            showAlert(`Terjadi kesalahan: ${error.message}`, 'danger');
-        })
-        .finally(() => {
-            // Reset button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        });
-        });
-
-        // ALTERNATIF: Jika ingin tetap menggunakan FormData dan POST
-        function alternativeSubmit() {
-            const formData = new FormData(this);
-            const guestId = formData.get('guest_id');
-
-            // Tambahkan _method untuk Laravel method spoofing
-            formData.append('_method', 'PATCH');
-
-            fetch(`/guest/${guestId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                })
-                .then(response => {
-                    // ... sama seperti di atas
-                });
-        }
-
-        // Handle delete guest with AJAX
-        function deleteGuest(id, name) {
-            if (confirm(`Apakah Anda yakin ingin menghapus tamu "${name}"?`)) {
-                // PERBAIKAN: Sesuaikan URL dengan route yang benar
-                fetch(`/guest/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Remove row from table
-                            document.getElementById(`guest-row-${id}`).remove();
-                            showAlert('Tamu berhasil dihapus!', 'success');
-                        } else {
-                            showAlert(data.message || 'Terjadi kesalahan saat menghapus data!', 'danger');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        showAlert('Terjadi kesalahan saat menghapus data!', 'danger');
-                    });
-            }
-        }
-
-        // Function to show alert messages
-        function showAlert(message, type = 'success') {
-            // Remove existing alerts
-            const existingAlerts = document.querySelectorAll('.alert-custom');
-            existingAlerts.forEach(alert => alert.remove());
-
-            // Create new alert
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show alert-custom`;
-            alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '20px';
-            alertDiv.style.right = '20px';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.style.minWidth = '300px';
-
-            alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-
-            document.body.appendChild(alertDiv);
-
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.remove();
-                }
-            }, 5000);
-        }
-
-        function logout() {
-            // Create a form element
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{{ route('logout') }}';
-
-            // Add CSRF token
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = '{{ csrf_token() }}';
-            form.appendChild(csrfToken);
-
-            // Add the form to the document and submit it
-            document.body.appendChild(form);
-            form.submit();
-        }
-
-        console.log('Guest management script loaded with correct routes');
-    </script>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom Dashboard JS -->
-    <script src="js/dashboard.js"></script>
+    <!-- Custom Scripts -->
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 </body>
 
 </html>
