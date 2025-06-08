@@ -36,12 +36,12 @@ class GuestController extends Controller
             'guestStatus' => 'required|in:hadir,tidak_hadir,belum_konfirmasi',
         ]);
 
-        // Mapping field names untuk database
+        // Data yang akan disimpan ke database
         $guestData = [
             'user_id' => Auth::id(),
-            'name' => $validatedData['guestName'],
-            'address' => $validatedData['guestAddress'],
-            'status' => $validatedData['guestStatus'],
+            'guestName' => $validatedData['guestName'],
+            'guestAddress' => $validatedData['guestAddress'] ?? '',  // Default empty string jika null
+            'guestStatus' => $validatedData['guestStatus'],
         ];
 
         $guest = Guest::create($guestData);
@@ -56,7 +56,7 @@ class GuestController extends Controller
         }
 
         // Traditional form submission (fallback)
-        return redirect()->route('dashboard.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Tamu berhasil ditambahkan!');
     }
 
@@ -95,12 +95,8 @@ class GuestController extends Controller
             'guestStatus' => 'required|in:hadir,tidak_hadir,belum_konfirmasi',
         ]);
 
-        // Mapping field names untuk database
-        $updateData = [
-            'name' => $validated['guestName'],
-            'address' => $validated['guestAddress'],
-            'status' => $validated['guestStatus'],
-        ];
+        // Data sudah sesuai dengan nama kolom di database
+        $updateData = $validated;
 
         $guest->update($updateData);
 
@@ -114,7 +110,7 @@ class GuestController extends Controller
         }
 
         // Traditional form submission (fallback)
-        return redirect()->route('dashboard.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Data Tamu berhasil diperbarui!');
     }
 
@@ -142,7 +138,7 @@ class GuestController extends Controller
         }
 
         // Traditional form submission (fallback)
-        return redirect()->route('dashboard.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Tamu berhasil dihapus!');
     }
 }

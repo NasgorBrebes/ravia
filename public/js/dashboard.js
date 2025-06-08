@@ -241,4 +241,119 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Tambah Tamu";
             editingGuestId = null;
         });
+
+    // Handle edit button clicks
+    document.addEventListener("click", function (e) {
+        if (e.target.closest(".btn-edit")) {
+            const btn = e.target.closest(".btn-edit");
+            const id = btn.getAttribute("data-id");
+            const name = btn.getAttribute("data-name");
+            const address = btn.getAttribute("data-address");
+            const status = btn.getAttribute("data-status");
+
+            // Populate edit modal
+            document.getElementById("editGuestId").value = id;
+            document.getElementById("editGuestName").value = name;
+            document.getElementById("editGuestAddress").value = address || "";
+            document.getElementById("editGuestStatus").value = status;
+
+            // Update form action
+            const form = document.getElementById("editGuestForm");
+            form.action = `/guest/${id}`;
+        }
+    });
+
+    // Handle edit form submission with AJAX
+    document
+        .getElementById("editGuestForm")
+        .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const guestId = document.getElementById("editGuestId").value;
+
+            // Get CSRF token from meta tag
+            const token = document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content");
+
+            fetch(`/guest/${guestId}`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        // Update the table row
+                        const row = document.getElementById(
+                            `guest-row-${guestId}`
+                        );
+                        const statusClass =
+                            formData.get("guestStatus") === "hadir"
+                                ? "bg-success"
+                                : formData.get("guestStatus") === "tidak_hadir"
+                                ? "bg-danger"
+                                : "bg-warning";
+                        const statusText = formData
+                            .get("guestStatus")
+                            .replace("_", " ");
+
+                        if (row) {
+                            row.innerHTML = `
+                    <td>${formData.get("guestName")}</td>
+                    <td>${formData.get("guestAddress") || ""}</td>
+                    <td>
+                        <span class="badge ${statusClass}">
+                            ${
+                                statusText.charAt(0).toUpperCase() +
+                                statusText.slice(1)
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm btn-edit me-1"
+                            data-id="${guestId}"
+                            data-name="${formData.get("guestName")}"
+                            data-address="${formData.get("guestAddress") || ""}"
+                            data-status="${formData.get("guestStatus")}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editGuestModal">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteGuest(${guestId}, '${formData.get(
+                                "guestName"
+                            )}')">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                `;
+                        }
+
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(
+                            document.getElementById("editGuestModal")
+                        );
+                        modal.hide();
+
+                        // Show success message
+                        showAlert("Data tamu berhasil diperbarui!", "success");
+                    } else {
+                        showAlert(
+                            data.message ||
+                                "Terjadi kesalahan saat memperbarui data!",
+                            "danger"
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    showAlert(
+                        "Terjadi kesalahan saat memperbarui data!",
+                        "danger"
+                    );
+                });
+        });
 });

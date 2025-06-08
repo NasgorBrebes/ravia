@@ -40,6 +40,14 @@
                         <a class="nav-link" href="#story">Story</a>
                         <a class="nav-link" href="#gallery">Gallery</a>
                         <a class="nav-link" href="#gift-section">Gift</a>
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -266,97 +274,102 @@
                 </div>
             </div>
 
-    <!-- Gift Section -->
-    <section id="gift-section" class="gift-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="section-title">Wedding Gift</h2>
-                    <p class="mb-5">Kehadiran dan doa Anda adalah hadiah terindah bagi kami. Namun jika Anda ingin
-                        memberikan tanda kasih, kami menyediakan informasi di bawah ini:</p>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <!-- Bank BCA -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="gift-card">
-                        <div class="gift-header">
-                            <h5 class="mb-0">Bank BCA</h5>
+            <!-- Gift Section -->
+            <section id="gift-section" class="gift-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <h2 class="section-title">Wedding Gift</h2>
+                            <p class="mb-5">Kehadiran dan doa Anda adalah hadiah terindah bagi kami. Namun jika Anda
+                                ingin
+                                memberikan tanda kasih, kami menyediakan informasi di bawah ini:</p>
                         </div>
-                        <div class="gift-body">
-                            <img src="img/bca.jpg" alt="Logo BCA" class="bank-logo">
-                            <p class="mb-2" style="color: #F5C28D;">a.n Syachrul Ramadhan</p>
-                            <div class="account-number" id="bca-number">8720374981</div>
-                            <button class="copy-btn"
-                                onclick="copyToClipboard('bca-number', 'bca-success', 'bca-failed')">
-                                <i class="fa fa-copy me-2"></i>Salin No. Rekening
-                            </button>
-                            <div class="copy-success" id="bca-success">
-                                <i class="fa fa-check-circle me-1"></i>Berhasil disalin!
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <!-- Bank BCA -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="gift-card">
+                                <div class="gift-header">
+                                    <h5 class="mb-0">Bank BCA</h5>
+                                </div>
+                                <div class="gift-body">
+                                    <img src="img/bca.jpg" alt="Logo BCA" class="bank-logo">
+                                    <p class="mb-2" style="color: #F5C28D;">a.n Syachrul Ramadhan</p>
+                                    <div class="account-number" id="bca-number">8720374981</div>
+                                    <button class="copy-btn"
+                                        onclick="copyToClipboard('bca-number', 'bca-success', 'bca-failed')">
+                                        <i class="fa fa-copy me-2"></i>Salin No. Rekening
+                                    </button>
+                                    <div class="copy-success" id="bca-success">
+                                        <i class="fa fa-check-circle me-1"></i>Berhasil disalin!
+                                    </div>
+                                    <div class="copy-failed" id="bca-failed">
+                                        <i class="fa fa-info-circle me-1"></i>Silakan salin manual: tekan lama dan
+                                        pilih
+                                        "Salin"
+                                    </div>
+                                    <!-- Hidden input for fallback -->
+                                    <textarea class="clipboard-input" id="bca-input">8720374981</textarea>
+                                </div>
                             </div>
-                            <div class="copy-failed" id="bca-failed">
-                                <i class="fa fa-info-circle me-1"></i>Silakan salin manual: tekan lama dan pilih
-                                "Salin"
+                        </div>
+
+                        <!-- Bank Mandiri -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="gift-card">
+                                <div class="gift-header">
+                                    <h5 class="mb-0">Bank Mandiri</h5>
+                                </div>
+                                <div class="gift-body">
+                                    <img src="img/mandiri2.jpg" alt="Logo Mandiri" class="bank-logo">
+                                    <p class="mb-2" style="color: #F5C28D;">a.n Dhinda Oktavia</p>
+                                    <div class="account-number" id="mandiri-number">1290374650</div>
+                                    <button class="copy-btn"
+                                        onclick="copyToClipboard('mandiri-number', 'mandiri-success', 'mandiri-failed')">
+                                        <i class="fa fa-copy me-2"></i>Salin No. Rekening
+                                    </button>
+                                    <div class="copy-success" id="mandiri-success">
+                                        <i class="fa fa-check-circle me-1"></i>Berhasil disalin!
+                                    </div>
+                                    <div class="copy-failed" id="mandiri-failed">
+                                        <i class="fa fa-info-circle me-1"></i>Silakan salin manual: tekan lama dan
+                                        pilih
+                                        "Salin"
+                                    </div>
+                                    <!-- Hidden input for fallback -->
+                                    <textarea class="clipboard-input" id="mandiri-input">1290374650</textarea>
+                                </div>
                             </div>
-                            <!-- Hidden input for fallback -->
-                            <textarea class="clipboard-input" id="bca-input">8720374981</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <p class="gift-message">Terima kasih atas doa dan restu yang diberikan untuk pernikahan
+                                kami.</p>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Bank Mandiri -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="gift-card">
-                        <div class="gift-header">
-                            <h5 class="mb-0">Bank Mandiri</h5>
-                        </div>
-                        <div class="gift-body">
-                            <img src="img/mandiri2.jpg" alt="Logo Mandiri" class="bank-logo">
-                            <p class="mb-2" style="color: #F5C28D;">a.n Dhinda Oktavia</p>
-                            <div class="account-number" id="mandiri-number">1290374650</div>
-                            <button class="copy-btn"
-                                onclick="copyToClipboard('mandiri-number', 'mandiri-success', 'mandiri-failed')">
-                                <i class="fa fa-copy me-2"></i>Salin No. Rekening
-                            </button>
-                            <div class="copy-success" id="mandiri-success">
-                                <i class="fa fa-check-circle me-1"></i>Berhasil disalin!
-                            </div>
-                            <div class="copy-failed" id="mandiri-failed">
-                                <i class="fa fa-info-circle me-1"></i>Silakan salin manual: tekan lama dan pilih
-                                "Salin"
-                            </div>
-                            <!-- Hidden input for fallback -->
-                            <textarea class="clipboard-input" id="mandiri-input">1290374650</textarea>
-                        </div>
-                    </div>
-                </div>
+            <div class="audio-player">
+                <button id="playPauseBtn">▶</button>
             </div>
+            <audio id="bgMusic" loop>
+                <source src="musik/Rachmaninov - Symphony No. 2 Op. 27 III. Adagio_ Adagio (LSO).mp3"
+                    type="audio/mp3">
+            </audio>
 
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <p class="gift-message">Terima kasih atas doa dan restu yang diberikan untuk pernikahan kami.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="audio-player">
-        <button id="playPauseBtn">▶</button>
-    </div>
-    <audio id="bgMusic" loop>
-        <source src="musik/Rachmaninov - Symphony No. 2 Op. 27 III. Adagio_ Adagio (LSO).mp3" type="audio/mp3">
-    </audio>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.5/dist/index.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
-    </script>
-    <script src="musik.js"></script>
-    <script src="script.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.5/dist/index.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+            </script>
+            <script src="musik.js"></script>
+            <script src="script.js"></script>
 </body>
 
 </html>

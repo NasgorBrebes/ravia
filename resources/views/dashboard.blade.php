@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard Undangan Pernikahan</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
@@ -98,7 +99,7 @@
                                         </div>
                                         <div>
                                             <h6 class="card-title text-muted mb-0">Total Tamu</h6>
-                                            <h2 class="mt-2 mb-0" id="totalGuests">150</h2>
+                                            <h2 class="mt-2 mb-0">{{ $guestStats['total'] }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +114,7 @@
                                         </div>
                                         <div>
                                             <h6 class="card-title text-muted mb-0">Konfirmasi Hadir</h6>
-                                            <h2 class="mt-2 mb-0" id="confirmedGuests">87</h2>
+                                            <h2 class="mt-2 mb-0">{{ $guestStats['hadir'] }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +129,7 @@
                                         </div>
                                         <div>
                                             <h6 class="card-title text-muted mb-0">Tidak Hadir</h6>
-                                            <h2 class="mt-2 mb-0" id="declinedGuests">23</h2>
+                                            <h2 class="mt-2 mb-0">{{ $guestStats['tidak_hadir'] }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +144,7 @@
                                         </div>
                                         <div>
                                             <h6 class="card-title text-muted mb-0">Belum Konfirmasi</h6>
-                                            <h2 class="mt-2 mb-0" id="pendingGuests">40</h2>
+                                            <h2 class="mt-2 mb-0">{{ $guestStats['belum_konfirmasi'] }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -165,27 +166,23 @@
                                 <table class="table table-hover mb-0">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Tanggal</th>
                                             <th>Nama</th>
-                                            <th>Aktivitas</th>
+                                            <th>Status</th>
+                                            <th>Tanggal Update</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="recentActivities">
+                                    <tbody>
+                                        @foreach($recentGuests as $guest)
                                         <tr>
-                                            <td>06 Apr 2025</td>
-                                            <td>Agus Setiawan</td>
-                                            <td>Konfirmasi kehadiran</td>
+                                            <td>{{ $guest->guestName }}</td>
+                                            <td>
+                                                <span class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
+                                                    {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $guest->updated_at->format('d M Y') }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>05 Apr 2025</td>
-                                            <td>Budi Santoso</td>
-                                            <td>Konfirmasi kehadiran</td>
-                                        </tr>
-                                        <tr>
-                                            <td>05 Apr 2025</td>
-                                            <td>Citra Dewi</td>
-                                            <td>Konfirmasi tidak hadir</td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -430,7 +427,7 @@
                                             <th>Nama</th>
                                             <th>Alamat</th>
                                             <th>Status</th>
-                                            <th width="150">Aksi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -439,7 +436,7 @@
                                             <td>{{ $guest->guestName }}</td>
                                             <td>{{ $guest->guestAddress }}</td>
                                             <td>
-                                                <span class="badge bg-{{ $guest->guestStatus == 'hadir' ? 'success' : ($guest->guestStatus == 'tidak_hadir' ? 'danger' : 'warning') }}">
+                                                <span class="badge {{ $guest->guestStatus == 'hadir' ? 'bg-success' : ($guest->guestStatus == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
                                                     {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
                                                 </span>
                                             </td>
@@ -487,71 +484,38 @@
 
                 <!-- Edit Story Section -->
                 <div id="editStorySection" class="d-none">
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-header bg-white">
-                            <h5 class="card-title mb-0">Edit Cerita Cinta</h5>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <h6 class="fw-bold mb-3">Pertemuan Pertama</h6>
-                                <div class="mb-3">
-                                    <label for="story1Date" class="form-label">Tanggal</label>
-                                    <input type="date" class="form-control" id="story1Date" value="2020-10-10">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story1Title" class="form-label">Judul</label>
-                                    <input type="text" class="form-control" id="story1Title" value="Pertemuan Pertama">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story1Desc" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" id="story1Desc" rows="4">Kami bertemu secara tidak sengaja...</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story1Image" class="form-label">Gambar</label>
-                                    <input type="file" class="form-control" id="story1Image">
-                                </div>
-                                <hr class="my-4">
-                                <h6 class="fw-bold mb-3">Masa Pacaran</h6>
-                                <div class="mb-3">
-                                    <label for="story2Date" class="form-label">Tanggal</label>
-                                    <input type="date" class="form-control" id="story2Date" value="2022-04-16">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story2Title" class="form-label">Judul</label>
-                                    <input type="text" class="form-control" id="story2Title" value="Masa Pacaran">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story2Desc" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" id="story2Desc" rows="4">Kami resmi jadi pasangan setelah proses PDKT...</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story2Image" class="form-label">Gambar</label>
-                                    <input type="file" class="form-control" id="story2Image">
-                                </div>
-                                <hr class="my-4">
-                                <h6 class="fw-bold mb-3">Lamaran & Menikah</h6>
-                                <div class="mb-3">
-                                    <label for="story3Date" class="form-label">Tanggal</label>
-                                    <input type="date" class="form-control" id="story3Date" value="2025-04-20">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story3Title" class="form-label">Judul</label>
-                                    <input type="text" class="form-control" id="story3Title" value="Lamaran & Menikah">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story3Desc" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" id="story3Desc" rows="4">Waktu berjalan cepat, tahu-tahu udah sampai di titik ini...</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="story3Image" class="form-label">Gambar</label>
-                                    <input type="file" class="form-control" id="story3Image">
-                                </div>
-                                <div class="text-end">
-                                    <button type="button" class="btn btn-primary" onclick="saveStorySection()">
-                                        <i class="fas fa-save me-1"></i> Simpan Cerita
-                                    </button>
-                                </div>
-                            </form>
+                    <div class="container my-5">
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0">Tambah Cerita Cinta</h5>
+                            </div>
+                            <div class="card-body">
+                                {{-- Pertemuan Pertama --}}
+                                <form method="POST" action="{{ route('stories.store') }}" enctype="multipart/form-data" class="mb-5">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="story1Date" class="form-label">Tanggal</label>
+                                        <input type="date" class="form-control" id="story1Date" name="date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="story1Title" class="form-label">Judul</label>
+                                        <input type="text" class="form-control" id="story1Title" name="title">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="story1Desc" class="form-label">Deskripsi</label>
+                                        <textarea class="form-control" id="story1Desc" name="description" rows="4"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="story1Image" class="form-label">Gambar</label>
+                                        <input type="file" class="form-control" id="story1Image" name="image">
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-1"></i> Simpan Cerita
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -621,6 +585,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -680,243 +648,7 @@
         </div>
     </div>
 
-<!-- Fixed Table Section -->
-<div id="guestsSection" class="d-none">
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
-            <h5 class="card-title mb-0 mb-2 mb-md-0">Daftar Tamu</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="exportGuestList()">
-                    <i class="fas fa-download me-1"></i> Export
-                </button>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#guestModal">
-                    <i class="fas fa-plus me-1"></i> Tambah Tamu
-                </button>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($guests as $guest)
-                        <tr id="guest-row-{{ $guest->id }}">
-                            <td>{{ $guest->name }}</td>
-                            <td>{{ $guest->address }}</td>
-                            <td>
-                                <span class="badge {{ $guest->status == 'hadir' ? 'bg-success' : ($guest->status == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                    {{ ucfirst(str_replace('_', ' ', $guest->status)) }}
-                                </span>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm btn-edit me-1"
-                                    data-id="{{ $guest->id }}"
-                                    data-name="{{ $guest->name }}"
-                                    data-address="{{ $guest->address }}"
-                                    data-status="{{ $guest->status }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editGuestModal">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="deleteGuest({{ $guest->id }}, '{{ $guest->name }}')">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Fixed Table Section -->
-<div id="guestsSection" class="d-none">
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
-            <h5 class="card-title mb-0 mb-2 mb-md-0">Daftar Tamu</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="exportGuestList()">
-                    <i class="fas fa-download me-1"></i> Export
-                </button>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#guestModal">
-                    <i class="fas fa-plus me-1"></i> Tambah Tamu
-                </button>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($guests as $guest)
-                        <tr id="guest-row-{{ $guest->id }}">
-                            <td>{{ $guest->name }}</td>
-                            <td>{{ $guest->address }}</td>
-                            <td>
-                                <span class="badge {{ $guest->status == 'hadir' ? 'bg-success' : ($guest->status == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                    {{ ucfirst(str_replace('_', ' ', $guest->status)) }}
-                                </span>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm btn-edit me-1"
-                                    data-id="{{ $guest->id }}"
-                                    data-name="{{ $guest->name }}"
-                                    data-address="{{ $guest->address }}"
-                                    data-status="{{ $guest->status }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editGuestModal">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="deleteGuest({{ $guest->id }}, '{{ $guest->name }}')">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Fixed Table Section -->
-<div id="guestsSection" class="d-none">
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
-            <h5 class="card-title mb-0 mb-2 mb-md-0">Daftar Tamu</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="exportGuestList()">
-                    <i class="fas fa-download me-1"></i> Export
-                </button>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#guestModal">
-                    <i class="fas fa-plus me-1"></i> Tambah Tamu
-                </button>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($guests as $guest)
-                        <tr id="guest-row-{{ $guest->id }}">
-                            <td>{{ $guest->name }}</td>
-                            <td>{{ $guest->address }}</td>
-                            <td>
-                                <span class="badge {{ $guest->status == 'hadir' ? 'bg-success' : ($guest->status == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                    {{ ucfirst(str_replace('_', ' ', $guest->status)) }}
-                                </span>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm btn-edit me-1"
-                                    data-id="{{ $guest->id }}"
-                                    data-name="{{ $guest->name }}"
-                                    data-address="{{ $guest->address }}"
-                                    data-status="{{ $guest->status }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editGuestModal">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="deleteGuest({{ $guest->id }}, '{{ $guest->name }}')">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Fixed Table Section -->
-<div id="guestsSection" class="d-none">
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
-            <h5 class="card-title mb-0 mb-2 mb-md-0">Daftar Tamu</h5>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="exportGuestList()">
-                    <i class="fas fa-download me-1"></i> Export
-                </button>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#guestModal">
-                    <i class="fas fa-plus me-1"></i> Tambah Tamu
-                </button>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($guests as $guest)
-                        <tr id="guest-row-{{ $guest->id }}">
-                            <td>{{ $guest->name }}</td>
-                            <td>{{ $guest->address }}</td>
-                            <td>
-                                <span class="badge {{ $guest->status == 'hadir' ? 'bg-success' : ($guest->status == 'tidak_hadir' ? 'bg-danger' : 'bg-warning') }}">
-                                    {{ ucfirst(str_replace('_', ' ', $guest->status)) }}
-                                </span>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm btn-edit me-1"
-                                    data-id="{{ $guest->id }}"
-                                    data-name="{{ $guest->name }}"
-                                    data-address="{{ $guest->address }}"
-                                    data-status="{{ $guest->status }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editGuestModal">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="deleteGuest({{ $guest->id }}, '{{ $guest->name }}')">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Edit Guest Modal (Fixed Version) -->
+    <!-- Edit Guest Modal -->
     <div class="modal fade" id="editGuestModal" tabindex="-1" aria-labelledby="editGuestModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -925,6 +657,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editGuestForm" method="POST">
+                    @csrf
+                    @method('PATCH')
                     <div class="modal-body">
                         <input type="hidden" id="editGuestId" name="guest_id">
 
@@ -950,7 +684,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="saveGuestBtn">Menyimpan...</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -1044,7 +778,7 @@ document.getElementById('editGuestForm').addEventListener('submit', function(e) 
         }
         return response.json();
     })
-    .then(data => {
+    .then data => {
         console.log('Success response:', data);
 
         if (data.success) {
@@ -1175,6 +909,24 @@ function showAlert(message, type = 'success') {
         }
     }, 5000);
 }
+
+function logout() {
+            // Create a form element
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route("logout") }}';
+
+            // Add CSRF token
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            form.appendChild(csrfToken);
+
+            // Add the form to the document and submit it
+            document.body.appendChild(form);
+            form.submit();
+        }
 
 console.log('Guest management script loaded with correct routes');
     </script>
