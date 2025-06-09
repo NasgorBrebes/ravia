@@ -8,10 +8,10 @@
     use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
 
-    Route::get('/', function () {
-        return view('index');
-    });
+    Route::get('/', [WebController::class, 'home'])->name('home');
 
+
+    Route::get('/undangan/{slug}', [WebController::class, 'show']);
     Route::middleware('auth')->group(function () {
         // Dashboard routes
         Route::get('/dashboard', [WebController::class, 'index'])->name('dashboard');

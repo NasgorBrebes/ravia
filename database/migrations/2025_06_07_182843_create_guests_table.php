@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('guestName');
             $table->string('guestAddress');
             $table->enum('guestStatus', ['hadir', 'tidak_hadir', 'belum_konfirmasi'])->default('belum_konfirmasi');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

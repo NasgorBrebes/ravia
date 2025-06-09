@@ -1,5 +1,5 @@
 // Navigation functions
-function showSection(sectionName) {
+function showSection(sectionName, event) {
     // Hide all sections
     const sections = [
         "dashboard",
@@ -14,17 +14,18 @@ function showSection(sectionName) {
         "editGift",
     ];
     sections.forEach((section) => {
-        document.getElementById(section + "Section").classList.add();
+        document.getElementById(section + "Section").classList.add("d-none");
     });
 
     // Show selected section
-    document.getElementById(sectionName + "Section").classList.remove();
+    document.getElementById(sectionName + "Section").classList.remove("d-none");
 
     // Update active nav
     document
         .querySelectorAll(".nav-link")
         .forEach((link) => link.classList.remove("active"));
-    event.target.classList.add("active");
+    
+    if (event) event.target.classList.add("active");
 
     // Update page title
     const titles = {
@@ -42,6 +43,7 @@ function showSection(sectionName) {
     document.querySelector("h1.h2").textContent =
         titles[sectionName] || "Dashboard";
 }
+
 
 // Sidebar toggle for mobile
 document.addEventListener("DOMContentLoaded", function () {

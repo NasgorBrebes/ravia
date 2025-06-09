@@ -487,6 +487,7 @@
                                                                 title="Hapus Tamu">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
+                                                           <a href="{{ url('/undangan/'.$guest->slug) }}">Bagikan</a>
                                                         </div>
                                                     </td>
                                             </tr>
