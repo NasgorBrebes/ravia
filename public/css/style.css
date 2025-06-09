@@ -13,7 +13,7 @@ body{
 }
 /* Styling dasar untuk semua bagian */
 .home, .mempelai, .info, .maps, .story, .gallery, .gift, .rsvp {
-    opacity: 0; /* Mulai dengan tidak terlihat */
+    opacity: 1; /* Mulai dengan tidak terlihat */
     transition: opacity 1s ease-in-out; /* Hanya animasi opacity tanpa transform */
   }
 
@@ -469,7 +469,7 @@ iframe {
         .clipboard-input {
             position: absolute;
             left: -9999px;
-            opacity: 0;
+            opacity: 1;
         }
 
         /* Gallery Section Styling */
@@ -553,7 +553,7 @@ iframe {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    opacity: 1;
     transition: all 0.4s ease;
 }
 

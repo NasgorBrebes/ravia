@@ -14,11 +14,11 @@ function showSection(sectionName) {
         "editGift",
     ];
     sections.forEach((section) => {
-        document.getElementById(section + "Section").classList.add("d-none");
+        document.getElementById(section + "Section").classList.add();
     });
 
     // Show selected section
-    document.getElementById(sectionName + "Section").classList.remove("d-none");
+    document.getElementById(sectionName + "Section").classList.remove();
 
     // Update active nav
     document
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .getElementById("sidebarToggle")
         .addEventListener("click", function () {
             const sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("d-none");
+            sidebar.classList.toggle();
         });
 });
 
@@ -96,7 +96,7 @@ function addGuestToTable(id, name, email, phone, status) {
         <tr id="guest-${id}">
             <td>${name}</td>
             <td>${email}</td>
-            <td class="d-none d-md-table-cell">${phone}</td>
+            <td class="d-md-table-cell">${phone}</td>
             <td>${statusBadge}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="editGuestModal(${id})">
@@ -118,7 +118,7 @@ function updateGuestInTable(id, name, email, phone, status) {
         row.innerHTML = `
             <td>${name}</td>
             <td>${email}</td>
-            <td class="d-none d-md-table-cell">${phone}</td>
+            <td class="d-md-table-cell">${phone}</td>
             <td>${statusBadge}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="editGuestModal(${id})">

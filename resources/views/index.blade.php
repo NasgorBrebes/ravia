@@ -60,11 +60,12 @@
                 <img src="img/home.JPG" alt="Pasangan Pengantin">
             </div>
             <p class="quote">
-                Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis)
-                dirimu sendiri agar kamu merasa tenteram kepadanya.
-                Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sesungguhnya pada yang demikian itu benar-benar
-                terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.
-                <strong>QS. Ar-Rum Ayat 21</strong>
+                {{ $events->homeQuote ??
+                    'Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis)
+                                dirimu sendiri agar kamu merasa tenteram kepadanya.
+                                Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sesungguhnya pada yang demikian itu benar-benar
+                                terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.' }}
+                <strong>{{ $events->homeQuoteSource ?? 'QS. Ar-Rum Ayat 21' }}</strong>
             </p>
         </div>
     </section>
@@ -143,7 +144,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-10 text-center">
                     <span>Cara Kita Bertemu</span>
-                    <h2 style="font-size: 45px;">Our Story</h2>
+                    <h2 style="font-size: 45px;">{{$story->title ?? 'Our Story'}}</h2>
                     <p>Kisah kami berawal dari sebuah pertemuan sederhana yang perlahan tumbuh menjadi perjalanan cinta
                         yang penuh makna dan harapan.</p>
                 </div>
