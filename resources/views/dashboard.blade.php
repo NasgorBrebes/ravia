@@ -468,25 +468,27 @@
                                                         {{ ucfirst(str_replace('_', ' ', $guest->guestStatus)) }}
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <div class="btn-group btn-group-sm" role="group">
-                                                        <button type="button"
-                                                            class="btn btn-outline-primary btn-edit"
-                                                            data-id="{{ $guest->id }}"
-                                                            data-name="{{ $guest->guestName }}"
-                                                            data-address="{{ $guest->guestAddress }}"
-                                                            data-status="{{ $guest->guestStatus }}"
-                                                            data-bs-toggle="modal" data-bs-target="#editGuestModal"
-                                                            title="Edit Tamu">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-outline-danger"
-                                                            onclick="deleteGuest({{ $guest->id }}, '{{ $guest->guestName }}')"
-                                                            title="Hapus Tamu">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <button type="button"
+                                                                class="btn btn-outline-primary btn-edit"
+                                                                data-id="{{ $guest->id }}"
+                                                                data-name="{{ $guest->guestName }}"
+                                                                data-address="{{ $guest->guestAddress }}"
+                                                                data-status="{{ $guest->guestStatus }}"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editGuestModal"
+                                                                title="Edit Tamu">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn btn-outline-danger"
+                                                                onclick="deleteGuest({{ $guest->id }}, '{{ $guest->guestName }}')"
+                                                                title="Hapus Tamu">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -697,17 +699,19 @@
     </div>
 
     <!-- Edit Guest Modal -->
-    <div class="modal fade" id="editGuestModal" tabindex="-1" aria-labelledby="editGuestModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="editGuestModal" tabindex="-1" aria-labelledby="editGuestModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editGuestModalLabel">Edit Tamu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Form yang action-nya akan di-set lewat JS -->
                 <form id="editGuestForm" method="POST">
                     @csrf
                     @method('PATCH')
+
                     <div class="modal-body">
                         <input type="hidden" id="editGuestId" name="guest_id">
 
@@ -731,6 +735,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -739,6 +744,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Debug Panel -->
     <div class="mt-4 p-3 bg-light rounded">
@@ -755,6 +761,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Scripts -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
+    <!--guestedit-->
+    <script src="{{ asset('js/guestedit.js') }}"></script>
 </body>
 
 </html>
