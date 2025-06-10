@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('homeQuoteSource');
             $table->string('groomAddress');
             $table->string('brideAddress');
-            $table->string('webTitle');
             $table->string('groomName');
+            $table->string('groomPhoto');
             $table->string('brideName');
+            $table->string('bridePhoto');
             $table->string('groomFather');
             $table->string('groomMother');
             $table->string('brideFather');
@@ -44,9 +45,6 @@ return new class extends Migration
             $table->string('accountNumber2');
             $table->string('accountName2');
             $table->string('bankLogo2');
-            $table->string('giftAddress');
-            $table->string('recipientName');
-            $table->string('recipientPhone');
             $table->timestamps();
         });
     }

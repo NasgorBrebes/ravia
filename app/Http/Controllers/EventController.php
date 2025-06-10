@@ -59,7 +59,7 @@ class EventController extends Controller
              'eventTime' => 'sometimes|required',
              'eventLocation' => 'sometimes|required|string|max:255',
              'eventAddress' => 'sometimes|required|string|max:255',
-             'mapEmbedUrl' => 'sometimes|required|string|max:10000',
+             'mapEmbedUrl' => 'sometimes|required|string|max:90000|regex:/^<iframe.*src="https:\/\/www\.google\.com\/maps\/embed.*<\/iframe>$/s',
              'groomName' => 'sometimes|required|string|max:50',
              'groomAddress' => 'sometimes|required|string|max:255',
              'brideName' => 'sometimes|required|string|max:50',
@@ -79,6 +79,8 @@ class EventController extends Controller
              'bannerImage' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
              'musicBackground' => 'sometimes|required|mimes:mp3,wav,mpeg|max:25000',
              'homeImage' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+             'groomPhoto' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+             'bridePhoto' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
              'webTitle' => 'sometimes|required|string|max:255',
              'homeQuote' => 'sometimes|required|string|max:1000',
              'homeSource' => 'sometimes|required|string|max:255',
@@ -116,6 +118,18 @@ class EventController extends Controller
              $homeImageName = $request->file('homeImage')->getClientOriginalName();
              $validated['homeImage'] = $request->file('homeImage')->storeAs('images', $homeImageName, 'public');
          }
+
+         // Handler untuk groomPhoto
+        if ($request->hasFile('groomPhoto')) {
+            $groomPhotoName = $request->file('groomPhoto')->getClientOriginalName();
+            $validated['groomPhoto'] = $request->file('groomPhoto')->storeAs('images', $groomPhotoName, 'public');
+        }
+
+        // Handler untuk bridoPhoto  
+        if ($request->hasFile('bridoPhoto')) {
+            $bridoPhotoName = $request->file('bridoPhoto')->getClientOriginalName();
+            $validated['bridoPhoto'] = $request->file('bridoPhoto')->storeAs('images', $bridoPhotoName, 'public');
+}
 
          Event::updateOrCreate(['user_id' => Auth::id()], $validated);
 

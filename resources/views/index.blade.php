@@ -68,143 +68,140 @@
 
 
     <section id="mempelai" class="mempelai">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 text-center">
-                    <div class="row align-items-center">
-                        <!-- Mempelai Pria -->
-                        <div class="col-md-6">
-                            <div class="circle syachrul mx-auto"></div>{{ $event->groomName }}
-                            <p class="desc">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <div class="row align-items-center">
+                    <!-- Mempelai Pria -->
+                    <div class="col-md-6">
+                        <div class="circle syachrul mx-auto">
+                            @if($event->groomPhoto)
+                                <img src="{{ asset('storage/' . $event->groomPhoto) }}" alt="Foto {{ $event->groomName }}">
+                            @else
+                                <div class="placeholder-content">
+                                    <i>👤</i><br>
+                                    Foto tidak tersedia
+                                </div>
+                            @endif
+                        </div>
+                        <h3>{{ $event->groomName }}</h3>
+                        <p class="desc">
                             Putra dari pasangan:<br>
                             Bapak {{ $event->groomFather }}<br>
                             & Ibu {{ $event->groomMother }}<br>
-                            {{$event->groomAddress}}
-                            </p>
+                            {{ $event->groomAddress }}
+                        </p>
+                    </div>
+                    <!-- Mempelai Wanita -->
+                    <div class="col-md-6">
+                        <div class="circle dhinda mx-auto">
+                            @if($event->bridePhoto)
+                                <img src="{{ asset('storage/' . $event->bridePhoto) }}" alt="Foto {{ $event->brideName }}">
+                            @else
+                                <div class="placeholder-content">
+                                    <i>👤</i><br>
+                                    Foto tidak tersedia
+                                </div>
+                            @endif
                         </div>
-                        <!-- Mempelai Wanita -->
-                        <div class="col-md-6">
-                            <div class="circle dhinda mx-auto"></div>{{ $event->groomName }}
-                            <p class="desc">
+                        <h3>{{ $event->brideName }}</h3>
+                        <p class="desc">
                             Putri dari pasangan:<br>
                             Bapak {{ $event->brideFather }}<br>
                             & Ibu {{ $event->brideMother }}<br>
-                            {{$event->brideAddress}}
-                            </p>
-                        </div>
+                            {{ $event->brideAddress }}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="info" class="info">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
-                    {{$event->openingGreeting}}
-                    <p>Dengan memohon rahmat dan ridho Allah SWT, Kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk
-                        hadir dalam acara Resepsi Pernikahan putra dan puteri kami yang akan dilaksanakan pada:</p>
-                    <p>Hari<br><span class="highlight">16 April 2025</span></p>
-                    <p>Pukul<br><span class="highlight">19.30 s/d selesai</span></p>
+                    <h2>{{$event->openingGreeting}}</h2>
+                    <div>{{$event->welcomeMessage}}</div>
+                    <p>Hari</p>
+                    <p class="highlight" style="font-size: 25px;">{{ $event->eventDate ? \Carbon\Carbon::parse($event->eventDate)->locale('id')->translatedFormat('j F Y') : '' }}</p>
+                    <p>Pukul</p>
+                    <p class="highlight" style="font-size: 25px;">{{ $event->eventTime ? \Carbon\Carbon::parse($event->eventTime)->format('H:i') : '' }} s/d selesai</p>
                     <p>Bertempat di</p>
-                    <p class="highlight" style="font-size: 25px;">Gran Melia</p>
-                    <p>Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i berkenan hadir
-                        untuk memberikan doa restu kepada kami.</p>
-                    <p>Atas kehadiran dan doa restunya kami ucapkan terimakasih.</p>
+                    <p class="highlight" style="font-size: 25px;">{{ $event->eventLocation }}</p>
+                    <p>{{ $event->homeQuoteSource }}</p>
+                    <p>{{$event->closingGreeting}}</p>
                     <h2>WASSALAMUALAIKUM WARAHMATULLAH WABARAKATUH</h2>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="map" class="map">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 text-center">
-                    <h2>Lokasi Acara</h2>
-                    <iframe src="https://maps.google.com/maps?q=Gran+Melia+Jakarta&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                        width="900" height="350" style="border:0; border-radius:20px;" allowfullscreen=""
-                        loading="lazy">
-                    </iframe>
-                    <a href="https://www.google.com/maps?q=Gran+Melia+Jakarta" class="map-btn">View Map</a>
-                </div>
+<section id="map" class="map">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <h2>Lokasi Acara</h2>
+                
+                @if($event->mapEmbedUrl)
+                    <div class="map-container" style="display: flex; justify-content: center; margin: 20px 0;">
+                        <!-- Render embed code langsung tanpa iframe wrapper -->
+                        {!! $event->mapEmbedUrl !!}
+                    </div>
+                    
+                    <!-- Tombol View Map dengan URL dinamis -->
+                    @if($event->mapUrl)
+                        <a href="{{ $event->mapUrl }}" target="_blank" class="map-btn">View on Google Maps</a>
+                    @else
+                        <!-- Fallback jika tidak ada mapUrl terpisah -->
+                        <a href="#" onclick="openMapFromEmbed()" class="map-btn">View on Google Maps</a>
+                    @endif
+                @else
+                    <div class="no-map">
+                        <p>Lokasi akan segera diumumkan</p>
+                    </div>
+                @endif
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="story" class="story">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 col-10 text-center">
-                    <span>Cara Kita Bertemu</span>
-                    <h2 style="font-size: 45px;">{{$story->title ?? 'Our Story'}}</h2>
-                    <p>Kisah kami berawal dari sebuah pertemuan sederhana yang perlahan tumbuh menjadi perjalanan cinta
-                        yang penuh makna dan harapan.</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <ul class="timeline">
-                        <li>
-                            <div class="timeline-image" style="background-image: url(img/pertemuan11.jpg);"></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3>Pertemuan Pertama</h3>
-                                    <span>10 Oktober 2020</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Kami bertemu secara tidak sengaja. Katanya sih, jodoh nggak akan ke mana—eh,
-                                        ternyata benar! Awalnya cuma basa-basi, lama-lama jadi sering cari-cari alasan
-                                        buat ngobrol. Entah kenapa, dari semua orang di ruangan itu, matanya cuma
-                                        nangkep dia terus. Mungkin karena dia yang paling nyentrik... atau paling sering
-                                        ngambil cemilan.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image" style="background-image: url(img/pertemuan11.jpg);"></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3>Masa Pacaran</h3>
-                                    <span>16 April 2022</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Kami resmi jadi pasangan setelah proses PDKT yang penuh kode—yang seringnya salah
-                                        tangkap. Dari nonton film bareng tapi ngantuk duluan, makan bareng tapi rebutan
-                                        makanan, sampai debat seru cuma gara-gara warna langit. Tapi ya begitulah, semua
-                                        keanehan itu malah bikin makin sayang.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </li>
-                        <li>
-                            <div class="timeline-image" style="background-image: url(img/pertemuan11.jpg);"></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3>Lamaran & Menikah</h3>
-                                    <span>20 April 2025</span>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Waktu berjalan cepat, tahu-tahu udah sampai di titik ini. Proses lamaran
-                                        berlangsung dengan lancar (setelah latihan omongan berkali-kali di depan
-                                        cermin), dan akhirnya kami sepakat: kita serius, kita lanjut. Hari pernikahan
-                                        pun datang—rame, heboh, haru, dan penuh tawa. Dari stres nyiapin acara, sampe
-                                        deg-degan di pelaminan, semua jadi kenangan manis. Sekarang, kami siap memulai
-                                        hidup baru... dengan satu aturan penting: siapa cepat dia yang dapet sisa ayam
-                                        goreng terakhir.</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-10 text-center">
+                <span>Cara Kita Bertemu</span>
+                <h2 style="font-size: 45px;">Our Story</h2>
+                <p>Kisah kami berawal dari sebuah pertemuan sederhana yang perlahan tumbuh menjadi perjalanan cinta
+                    yang penuh makna dan harapan.</p>
             </div>
         </div>
-    </section>
+
+        <div class="row">
+            <div class="col">
+                <ul class="timeline">
+                    @foreach($story as $index => $item)
+                    <li class="{{ $index % 2 == 1 ? 'timeline-inverted' : '' }}">
+                        <div class="timeline-image">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h3>{{ $item->title }}</h3>
+                                <span>{{ $item->date->format('Y-m-d') }}</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>{{ $item->description }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
     <section id="gallery" class="gallery py-5">
         <div class="container">
@@ -222,52 +219,70 @@
             </div>
 
             <!-- Gallery Grid with Hover Effects -->
-            <div class="row g-4 justify-content-center gallery-container">
-                <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="gallery-card">
-                        <a href="img/gallery1.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
-                            <div class="gallery-image">
-                                <img src="img/t1.jpg" alt="Moment Bahagia 1" class="img-fluid">
-                                <div class="overlay">
-                                    <div class="overlay-content">
-                                        <i class="fas fa-search-plus"></i>
-                                    </div>
-                                </div>
+<div class="row g-4 justify-content-center gallery-container">
+    @forelse($galleries as $gallery)
+        <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="{{ $loop->iteration * 100 }}">
+            <div class="gallery-card">
+                <a href="{{ Storage::url($gallery->image_path) }}" data-toggle="lightbox" data-gallery="wedding-gallery">
+                    <div class="gallery-image">
+                        <img src="{{ Storage::url($gallery->image_path) }}" alt="{{ $gallery->alt_text ?? 'Moment Bahagia' }}" class="img-fluid">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-search-plus"></i>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="gallery-card">
-                        <a href="img/gallery2.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
-                            <div class="gallery-image">
-                                <img src="img/t2.jpg" alt="Moment Bahagia 2" class="img-fluid">
-                                <div class="overlay">
-                                    <div class="overlay-content">
-                                        <i class="fas fa-search-plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="gallery-card">
-                        <a href="img/gallery3.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
-                            <div class="gallery-image">
-                                <img src="img/t3.jpg" alt="Moment Bahagia 3" class="img-fluid">
-                                <div class="overlay">
-                                    <div class="overlay-content">
-                                        <i class="fas fa-search-plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                </a>
             </div>
+        </div>
+    @empty
+        <!-- Tampilan default jika belum ada foto yang diupload -->
+        <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="100">
+            <div class="gallery-card">
+                <a href="img/gallery1.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
+                    <div class="gallery-image">
+                        <img src="img/t1.jpg" alt="Moment Bahagia 1" class="img-fluid">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="200">
+            <div class="gallery-card">
+                <a href="img/gallery2.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
+                    <div class="gallery-image">
+                        <img src="img/t2.jpg" alt="Moment Bahagia 2" class="img-fluid">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-12 gallery-item" data-aos="zoom-in" data-aos-delay="300">
+            <div class="gallery-card">
+                <a href="img/gallery3.jpg" data-toggle="lightbox" data-gallery="wedding-gallery">
+                    <div class="gallery-image">
+                        <img src="img/t3.jpg" alt="Moment Bahagia 3" class="img-fluid">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    @endforelse
+</div>
 
             <!-- Gift Section -->
             <section id="gift-section" class="gift-section">
@@ -282,16 +297,19 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <!-- Bank BCA -->
+                        <!-- Bank 1 -->
                         <div class="col-md-6 col-lg-4">
                             <div class="gift-card">
                                 <div class="gift-header">
-                                    <h5 class="mb-0">Bank BCA</h5>
+                                    <h5 class="mb-0">{{ $event->bankName1 }}</h5>
                                 </div>
                                 <div class="gift-body">
-                                    <img src="img/bca.jpg" alt="Logo BCA" class="bank-logo">
-                                    <p class="mb-2" style="color: #F5C28D;">a.n Syachrul Ramadhan</p>
-                                    <div class="account-number" id="bca-number">8720374981</div>
+                                    <img src="{{asset('storage/'.$event->bankLogo1)}}" 
+                                        alt="Logo {{ $event->bankLogo1 }}" 
+                                        class="bank-logo"
+                                        onerror="this.src='{{ asset('img/default-bank.jpg') }}'">
+                                    <p class="mb-2" style="color: #F5C28D;">a.n {{ $event->accountName1 }}</p>
+                                    <div class="account-number" id="bca-number">{{ $event->accountNumber1 }}</div>
                                     <button class="copy-btn"
                                         onclick="copyToClipboard('bca-number', 'bca-success', 'bca-failed')">
                                         <i class="fa fa-copy me-2"></i>Salin No. Rekening
@@ -310,16 +328,19 @@
                             </div>
                         </div>
 
-                        <!-- Bank Mandiri -->
+                        <!-- Bank 2 -->
                         <div class="col-md-6 col-lg-4">
                             <div class="gift-card">
                                 <div class="gift-header">
-                                    <h5 class="mb-0">Bank Mandiri</h5>
+                                    <h5 class="mb-0">{{ $event->bankName2 }}</h5>
                                 </div>
                                 <div class="gift-body">
-                                    <img src="img/mandiri2.jpg" alt="Logo Mandiri" class="bank-logo">
-                                    <p class="mb-2" style="color: #F5C28D;">a.n Dhinda Oktavia</p>
-                                    <div class="account-number" id="mandiri-number">1290374650</div>
+                                    <img src="{{asset('storage/'.$event->bankLogo2)}}" 
+                                        alt="Logo {{ $event->bankLogo2 }}" 
+                                        class="bank-logo"
+                                        onerror="this.src='{{ asset('img/default-bank.jpg') }}'">
+                                    <p class="mb-2" style="color: #F5C28D;">a.n {{ $event->accountName2 }}</p>
+                                    <div class="account-number" id="mandiri-number">{{$event->accountNumber2}}</div>
                                     <button class="copy-btn"
                                         onclick="copyToClipboard('mandiri-number', 'mandiri-success', 'mandiri-failed')">
                                         <i class="fa fa-copy me-2"></i>Salin No. Rekening

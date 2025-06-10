@@ -223,6 +223,20 @@
                                 <h6 class="fw-bold mb-3">Mempelai Pria</h6>
 
                                 <div class="mb-3">
+                                    <label for="groomPhoto" class="form-label">Foto Mempelai Pria</label>
+                                    <input type="file" class="form-control" id="groomPhoto" name="groomPhoto" accept="image/*">
+                                    @if(isset($event->groomPhoto) && $event->groomPhoto)
+                                        <div class="mt-2">
+                                            <small class="text-muted">Foto saat ini:</small><br>
+                                            <img src="{{ asset('storage/' . $event->groomPhoto) }}" alt="Foto Mempelai Pria" class="img-thumbnail mt-1" style="max-width: 150px; max-height: 150px;">
+                                        </div>
+                                    @endif
+                                    @error('groomPhoto')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="groomName" class="form-label">Nama Lengkap</label>
                                     <input type="text" class="form-control" id="groomName" name="groomName" value="{{ old('groomName', $event->groomName ?? '') }}">
                                 </div>
@@ -245,6 +259,19 @@
 
                                 <hr class="my-4">
                                 <h6 class="fw-bold mb-3">Mempelai Wanita</h6>
+                                
+                                <label for="bridePhoto" class="form-label">Foto Mempelai Wanita</label>
+                                    <input type="file" class="form-control" id="bridePhoto" name="bridePhoto" accept="image/*">
+                                    @if(isset($event->bridePhoto) && $event->bridePhoto)
+                                        <div class="mt-2">
+                                            <small class="text-muted">Foto saat ini:</small><br>
+                                            <img src="{{ asset('storage/' . $event->bridePhoto) }}" alt="Foto Mempelai Pria" class="img-thumbnail mt-1" style="max-width: 150px; max-height: 150px;">
+                                        </div>
+                                    @endif
+                                    @error('groomPhoto')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
                                 <div class="mb-3">
                                     <label for="brideName" class="form-label">Nama Lengkap</label>
@@ -265,47 +292,6 @@
                                     <label for="brideAddress" class="form-label">Alamat</label>
                                     <input type="text" class="form-control" id="brideAddress" name="brideAddress" value="{{ old('brideAddress', $event->brideAddress ?? '') }}">
                                 </div>
-
-                                <hr class="my-4">
-                                <h6 class="fw-bold mb-3">Pengaturan Website</h6>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="webTitle" class="form-label">Judul Website</label>
-                                        <input type="text" class="form-control" id="webTitle" name="webTitle" value="{{ old('webTitle', $event->webTitle ?? '') }}">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="groomName" class="form-label">Nama Pengantin Pria</label>
-                                        <input type="text" class="form-control" id="groomName" name="groomName" value="{{ old('groomName', $event->groomName ?? '') }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="brideName" class="form-label">Nama Pengantin Wanita</label>
-                                        <input type="text" class="form-control" id="brideName" name="brideName" value="{{ old('brideName', $event->brideName ?? '') }}">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <label for="groomFather" class="form-label">Ayah Pengantin Pria</label>
-                                        <input type="text" class="form-control" id="groomFather" name="groomFather" value="{{ old('groomFather', $event->groomFather ?? '') }}">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="groomMother" class="form-label">Ibu Pengantin Pria</label>
-                                        <input type="text" class="form-control" id="groomMother" name="groomMother" value="{{ old('groomMother', $event->groomMother ?? '') }}">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="brideFather" class="form-label">Ayah Pengantin Wanita</label>
-                                        <input type="text" class="form-control" id="brideFather" name="brideFather" value="{{ old('brideFather', $event->brideFather ?? '') }}">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="brideMother" class="form-label">Ibu Pengantin Wanita</label>
-                                        <input type="text" class="form-control" id="brideMother" name="brideMother" value="{{ old('brideMother', $event->brideMother ?? '') }}">
-                                    </div>
-                                </div>
-
 
                                 <hr class="my-4">
                                 <h6 class="fw-bold mb-3">Media</h6>
@@ -352,10 +338,6 @@
                                     <label for="eventLocation" class="form-label">Lokasi Acara</label>
                                     <input type="text" class="form-control" id="eventLocation"
                                         name="eventLocation">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="eventAddress" class="form-label">Alamat Lengkap</label>
-                                    <textarea class="form-control" id="eventAddress" rows="3" name="eventAddress"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="closingGreeting" class="form-label">Salam Penutup</label>

@@ -33,12 +33,14 @@ class GalleryController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'event_id' => 'nullable|exists:events,id', // NULLABLE SEKARANG
             'alt_text' => 'nullable|string|max:255'
         ]);
 
         try {
             $gallery = new Gallery();
             $gallery->user_id = Auth::id();
+            $gallery->event_id = $request->event_id; // BISA NULL SEKARANG
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');

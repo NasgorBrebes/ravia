@@ -30,8 +30,10 @@ class WebController extends Controller
     {
         $guest = Guest::where('slug', $slug)->firstOrFail();
         $event = Event::where('user_id', $guest->user_id)->first();
+        $story = Story::where('user_id', $guest->user_id)->get();
+        $galleries = Gallery::where('user_id', $guest->user_id)->get();
 
-        return view('index', compact('guest', 'event'));
+        return view('index', compact('guest', 'event', 'story', 'galleries'));
     }
     
         public function home()
