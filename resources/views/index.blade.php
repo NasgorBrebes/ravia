@@ -57,15 +57,11 @@
     <section id="home" class="home">
         <div class="container">
             <div class="image-home">
-                <img src="img/home.JPG" alt="Pasangan Pengantin">
+                <img src="{{asset('storage/'.$event->homeImage)}}" alt="Pasangan Pengantin">
             </div>
             <p class="quote">
-                {{ $events->homeQuote ??
-                    'Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis)
-                                dirimu sendiri agar kamu merasa tenteram kepadanya.
-                                Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sesungguhnya pada yang demikian itu benar-benar
-                                terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.' }}
-                <strong>{{ $events->homeQuoteSource ?? 'QS. Ar-Rum Ayat 21' }}</strong>
+                {{ $event->homeQuote ??    '' }}
+                <strong>{{ $event->homeQuoteSource ?? '' }}</strong>
             </p>
         </div>
     </section>
@@ -78,24 +74,22 @@
                     <div class="row align-items-center">
                         <!-- Mempelai Pria -->
                         <div class="col-md-6">
-                            <div class="circle syachrul mx-auto"></div>
-                            <h3 class="name">Syachrul Ramadhan</h3>
+                            <div class="circle syachrul mx-auto"></div>{{ $event->groomName }}
                             <p class="desc">
-                                Putra pertama dari pasangan<br>
-                                Travis Sekut &<br>
-                                Kylie Jannar<br>
-                                Jl. Kebenaran
+                            Putra dari pasangan:<br>
+                            Bapak {{ $event->groomFather }}<br>
+                            & Ibu {{ $event->groomMother }}<br>
+                            {{$event->groomAddress}}
                             </p>
                         </div>
                         <!-- Mempelai Wanita -->
                         <div class="col-md-6">
-                            <div class="circle dhinda mx-auto"></div>
-                            <h3 class="name">Dhinda Oktavia Ramadhansi</h3>
+                            <div class="circle dhinda mx-auto"></div>{{ $event->groomName }}
                             <p class="desc">
-                                Putri pertama dari pasangan<br>
-                                Tatang &<br>
-                                Siti<br>
-                                Jl. Ombak
+                            Putri dari pasangan:<br>
+                            Bapak {{ $event->brideFather }}<br>
+                            & Ibu {{ $event->brideMother }}<br>
+                            {{$event->brideAddress}}
                             </p>
                         </div>
                     </div>
@@ -108,7 +102,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
-                    <h2>ASSALAMUALAIKUM WARAHMATULLAH WABARAKATUH</h2>
+                    {{$event->openingGreeting}}
                     <p>Dengan memohon rahmat dan ridho Allah SWT, Kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk
                         hadir dalam acara Resepsi Pernikahan putra dan puteri kami yang akan dilaksanakan pada:</p>
                     <p>Hari<br><span class="highlight">16 April 2025</span></p>

@@ -7,6 +7,8 @@ use App\Models\Gallery;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class WebController extends Controller
 {
