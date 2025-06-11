@@ -34,7 +34,7 @@ class WebController extends Controller
         $galleries = Gallery::where('user_id', $guest->user_id)->get();
 
         return view('index', compact('guest', 'event', 'story', 'galleries'));
-        return view('hero', ['slug' => $slug]);
+    
     }
     
         public function home()

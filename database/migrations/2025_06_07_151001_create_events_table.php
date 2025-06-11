@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('homeImage');
-            $table->string('homeQuote');
+            $table->longText('homeQuote');
             $table->string('homeQuoteSource');
             $table->string('groomAddress');
             $table->string('brideAddress');
@@ -27,15 +27,13 @@ return new class extends Migration
             $table->string('groomMother');
             $table->string('brideFather');
             $table->string('brideMother');
-            $table->string('bannerImage');
             $table->string('musicBackground');
-            $table->string('mapEmbedUrl');
+            $table->longText('mapEmbedUrl');
             $table->string('openingGreeting');
-            $table->string('welcomeMessage');
+            $table->longText('welcomeMessage');
             $table->date('eventDate');
             $table->time('eventTime');
             $table->string('eventLocation');
-            $table->string('eventAddress');
             $table->string('closingGreeting');
             $table->string('bankName1');
             $table->string('accountNumber1');

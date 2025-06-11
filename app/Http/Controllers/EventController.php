@@ -58,7 +58,6 @@ class EventController extends Controller
              'eventDate' => 'sometimes|required|date',
              'eventTime' => 'sometimes|required',
              'eventLocation' => 'sometimes|required|string|max:255',
-             'eventAddress' => 'sometimes|required|string|max:255',
              'mapEmbedUrl' => 'sometimes|required|string|max:90000|regex:/^<iframe.*src="https:\/\/www\.google\.com\/maps\/embed.*<\/iframe>$/s',
              'groomName' => 'sometimes|required|string|max:50',
              'groomAddress' => 'sometimes|required|string|max:255',
@@ -76,21 +75,16 @@ class EventController extends Controller
              'accountNumber2' => 'sometimes|required|string|max:255',
              'accountName2' => 'sometimes|required|string|max:255',
              'bankLogo2' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-             'bannerImage' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
              'musicBackground' => 'sometimes|required|mimes:mp3,wav,mpeg|max:25000',
              'homeImage' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
              'groomPhoto' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
              'bridePhoto' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-             'webTitle' => 'sometimes|required|string|max:255',
              'homeQuote' => 'sometimes|required|string|max:1000',
              'homeSource' => 'sometimes|required|string|max:255',
              'homeQuoteSource' => 'sometimes|required|string|max:255',
              'openingGreeting' => 'sometimes|required|string|max:1000',
              'welcomeMessage' => 'sometimes|required|string|max:1000',
              'closingGreeting' => 'sometimes|required|string|max:1000',
-             'giftAddress' => 'sometimes|required|string|max:500',
-             'recipientName' => 'sometimes|required|string|max:255',
-             'recipientPhone' => 'sometimes|required|string|max:20',
          ]);
 
          // Handle file uploads with proper field names
@@ -126,9 +120,9 @@ class EventController extends Controller
         }
 
         // Handler untuk bridoPhoto  
-        if ($request->hasFile('bridoPhoto')) {
-            $bridoPhotoName = $request->file('bridoPhoto')->getClientOriginalName();
-            $validated['bridoPhoto'] = $request->file('bridoPhoto')->storeAs('images', $bridoPhotoName, 'public');
+        if ($request->hasFile('bridePhoto')) {
+            $bridePhotoName = $request->file('bridePhoto')->getClientOriginalName();
+            $validated['bridePhoto'] = $request->file('bridePhoto')->storeAs('images', $bridePhotoName, 'public');
 }
 
          Event::updateOrCreate(['user_id' => Auth::id()], $validated);

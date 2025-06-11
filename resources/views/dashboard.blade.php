@@ -70,14 +70,7 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- Toggle Sidebar Button (Mobile) -->
-            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1030;">
-                <button class="btn btn-primary rounded-circle shadow" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-
+            
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 main-content" id="mainContent">
                 <div
@@ -389,31 +382,14 @@
                                         <input type="file" class="form-control" id="bankLogo2" name="bankLogo2">
                                     </div>
                                 </div>
-
                                 <hr class="my-4">
-                                <h6 class="fw-bold mb-3">Alamat Pengiriman Hadiah</h6>
-                                <div class="mb-3">
-                                    <label for="giftAddress" class="form-label">Alamat Lengkap</label>
-                                    <textarea class="form-control" id="giftAddress" rows="4" name="giftAddress"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="recipientName" class="form-label">Nama Penerima</label>
-                                    <input type="text" class="form-control" id="recipientName"
-                                        name="recipientName">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="recipientPhone" class="form-label">Nomor Telepon</label>
-                                    <input type="text" class="form-control" id="recipientPhone"
-                                        name="recipientPhone">
-                                </div>
-
-                                <div class="text-end mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="fas fa-save me-2"></i> Simpan Perubahan
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i> Simpan Perubahan
                                     </button>
                                 </div>
                             </form>
-                        </div>
+                    
                     </div>
                 </div>
                 <!-- Edit Mempelai Section, TINGGALIN AJA MALAS NGURUSNYA -->
@@ -741,8 +717,6 @@
             </div>
         </div>
     </div>
-
-
 
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <!-- jQuery -->
