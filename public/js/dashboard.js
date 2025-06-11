@@ -42,6 +42,8 @@ function showSection(sectionName, event) {
     };
     document.querySelector("h1.h2").textContent =
         titles[sectionName] || "Dashboard";
+    
+    
 }
 
 

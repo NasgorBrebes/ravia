@@ -8,8 +8,9 @@
     use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
 
-    Route::get('/', [WebController::class, 'home'])->name('home');
-
+    Route::get('/', function () {
+        return redirect('/register');
+    });
 
     Route::get('/undangan/{slug}', [WebController::class, 'show']);
     Route::middleware('auth')->group(function () {

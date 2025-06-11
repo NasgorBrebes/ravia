@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
 </head>
 
 <body>
@@ -82,8 +84,6 @@
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
                     <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/40" alt="User Avatar"
-                            class="user-avatar me-2 rounded-circle">
                         <div>
                             <h6 class="mb-0" id="userDisplayName">Admin</h6>
                             <small class="text-muted">Administrator</small>
@@ -297,11 +297,6 @@
                                 <h6 class="fw-bold mb-3">Media</h6>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="bannerImage" class="form-label">Gambar Banner</label>
-                                        <input class="form-control" type="file" id="bannerImage"
-                                            name="bannerImage">
-                                    </div>
-                                    <div class="col-md-6">
                                         <label for="musicBackground" class="form-label">Latar Musik</label>
                                         <input class="form-control" type="file" accept="audio/*"
                                             id="musicBackground" name="musicBackground">
@@ -421,7 +416,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Edit Mempelai Section, TINGGALIN AJA MALAS NGURUSNYA -->
                 <div id="editMempelaiSection" class="d-none">
                     <div class="card border-0 shadow-sm mb-4">
@@ -516,7 +510,7 @@
                 </div>
 
                 <!-- Edit Story Section -->
-                <div id="editStorySection" class="d-none">
+                <div id="editStorySection" class="section-content d-none">
                     <div class="container my-5">
                         <div class="card border-0 shadow-sm mb-4">
                             <div class="card-header bg-white">
@@ -749,15 +743,8 @@
     </div>
 
 
-    <!-- Debug Panel -->
-    <div class="mt-4 p-3 bg-light rounded">
-        <h5>Debug Information</h5>
-        <div id="debugInfo"></div>
-        <button class="btn btn-info btn-sm mt-2" onclick="testFormData()">Test Form Data</button>
-        <button class="btn btn-success btn-sm mt-2" onclick="simulateSuccess()">Simulate Success</button>
-        <button class="btn btn-danger btn-sm mt-2" onclick="simulateError()">Simulate Error</button>
-    </div>
 
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <!-- Bootstrap Bundle with Popper -->
@@ -767,5 +754,4 @@
     <!--guestedit-->
     <script src="{{ asset('js/guestedit.js') }}"></script>
 </body>
-
 </html>
